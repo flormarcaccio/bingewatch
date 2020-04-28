@@ -2,5 +2,5 @@
   
 ## Final Project - Netflix Recommendations System
 
-[Netlix dataset source] (https://www.kaggle.com/netflix-inc/netflix-prize-data)
+[Netlix dataset source](https://www.kaggle.com/netflix-inc/netflix-prize-data)
 
