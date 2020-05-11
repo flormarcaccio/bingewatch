@@ -1,7 +1,0 @@
----
-title: "Functional Specification"
-author: "Sanjana Gupta"
-date: "11/05/2020"
-output: html_document
----
-
