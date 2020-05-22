@@ -1,104 +1,48 @@
+"""
+This module executes the preprocessing of the datasets obtained from the
+IMDb website and the Netflix Prize Dataset from Kaggle. Please look at
+the instructions on how to obtain the Netflix dataset before executing
+this script.
+"""
+import os
+import shutil
+
 import pandas as pd
-import numpy as np
-from scipy import sparse
-from sklearn.metrics.pairwise import cosine_similarity
-import pickle
 
-
-
-def formatting_data(file_path):
-    f = open(file_path, 'rt')
-    data = f.readlines()
-    final_list = []
-    for i, line in enumerate(data):
-        if ':' in line:
-            current_movie_id = int(line[:-2])
-        elif ',' in line:
-            tmp = line[:-1].split(',')
-            final_list.append([current_movie_id, int(tmp[0]), int(tmp[1]), tmp[2]])
-    print('Done parsing file: ', file_path)
-    return final_list
-
-
-def get_similar_movies(df):
-    # Creating sparse matrix and calculating cosine similarity between movies
-    sparse_data = sparse.csr_matrix((df.rating, (df.user_id, df.movie_id)))
-    similarity = cosine_similarity(sparse_data.T, dense_output = False)
-    # Creating a dictionary with the similar movies
-    movie_ids = np.unique(similarity.nonzero())
-    similar_movies_dict = dict()
-    for movie in movie_ids:
-        rec_movies_ids = np.argsort(-similarity[movie].toarray().ravel())[1:100]
-        rec_movies_score = np.array(sorted(similarity[movie].toarray().ravel(), reverse = True)[1:100])
-        similar_movies_dict[movie] = [rec_movies_ids, rec_movies_score]
-    print('Finished creating cosine similarity dictionary')
-    return similar_movies_dict
-
-
-def cleaning_imdb_data(df_titles, df_ratings):
-    df_titles = df_titles[df_titles.titleType.isin(['movie', 'tvSeries'])][['tconst', 'titleType', 'primaryTitle', 'startYear', 'genres']]
-    df_imdb = df_titles.merge(df_ratings, how='left', left_on='tconst', right_on='tconst')
-    df_imdb['titleType'] = df_imdb['titleType'].astype(str)
-    df_imdb = df_imdb.dropna()
-    df_imdb['weightedAverage'] = df_imdb['averageRating']*df_imdb['numVotes']
-    print('Done cleaning and merging IMDb data')
-    return df_imdb
-
-
-def get_unique_genres(df):
-    genres_all = list(df['genres'].unique())
-    genres_unique = set([element for item in genres_all for element in item.split(',')])
-    return genres_unique
-
-
-
-##################
+import helper_functions as hf
 
 # NETFLIX
+# Download the files, unzip them and get the data in a dataframe.
+NF_KAGGLE_USER = 'netflix-inc'
+NF_DIRECTORY = 'netflix-prize-data'
+hf.download_netflix_data(NF_KAGGLE_USER, NF_DIRECTORY)
 
-# Loading the data
+LIST_NF_DATA = []
+FILE_I = list(range(1, 5))
+FILE_PATH = NF_DIRECTORY+'/combined_data_'
+LIST_NF_FILES = [FILE_PATH+str(i)+'.txt' for i in FILE_I]
+for file in LIST_NF_FILES:
+    LIST_NF_DATA += hf.parse_data(file)
+DF_NF_COLS = ['movie_id', 'user_id', 'rating', 'rating_date']
+DF_NETFLIX = pd.DataFrame(LIST_NF_DATA, columns=DF_NF_COLS)
 
-data = []
+# Get the movie recommendation dictionary and store in data folder.
+DICT_RECOMMENDATIONS = hf.get_recommended_movies(DF_NETFLIX)
+hf.save_file(DICT_RECOMMENDATIONS, 'data/', 'dict_recommendations', '.pkl')
 
-files = ['raw-data/combined_data_1.txt', 'raw-data/combined_data_2.txt', 'raw-data/combined_data_3.txt', 'raw-data/combined_data_4.txt']
-for file in files:
-    data += formatting_data(file)
-
-df_netflix = pd.DataFrame(data, columns = ['movie_id', 'user_id', 'rating', 'rating_date'])
-
-
-# Getting the movie recommendation dictionary and storing in data folder
-
-dict_recommendations = get_similar_movies(df_netflix)
-with open('data/dict_recommendations.pkl', 'wb') as f:
-    pickle.dump(dict_recommendations, f, protocol=pickle.HIGHEST_PROTOCOL)
-print('Dictionary with movie recommendations is stored in the data folder')
-
-
-##################
+# Move and remove Netflix files.
+os.rename(NF_DIRECTORY+'/movie_titles.csv', 'data/movie_titles.csv')
+shutil.rmtree(NF_DIRECTORY)
 
 # IMDB
+# Download the data and store the cleaned and merged datasets.
+IMDB_TITLES_URL = 'https://datasets.imdbws.com/title.basics.tsv.gz'
+IMDB_RATINGS_URL = 'https://datasets.imdbws.com/title.ratings.tsv.gz'
+DF_IMDB_TITLES = hf.download_gz_file(IMDB_TITLES_URL)
+DF_IMDB_RATINGS = hf.download_gz_file(IMDB_RATINGS_URL)
+DF_IMDB = hf.clean_imdb_data(DF_IMDB_TITLES, DF_IMDB_RATINGS)
+hf.save_file(DF_IMDB, 'data/', 'imdb_df', '.csv')
 
-# Loading the data
-
-df_imdb_titles = pd.read_csv('raw-data/title.basics.tsv', sep = '\t', na_values=['\\N'])
-df_imdb_ratings = pd.read_csv('raw-data/title.ratings.tsv', sep = '\t', na_values=['\\N'])
-
-
-# Cleaning and merging data, and storing in data folder
-
-df_imdb = cleaning_imdb_data(df_imdb_titles, df_imdb_ratings)
-df_imdb.to_csv('data/imdb_df.csv', index = False)
-print('IMDb data is stored in the data folder')
-
-# Getting unique genres and storing them in data folder
-
-genres = get_unique_genres(df_imdb)
-with open('data/set_genres.pkl', 'wb') as f:
-    pickle.dump(genres, f, protocol=pickle.HIGHEST_PROTOCOL)
-
-
-
-
-
-
+# Get unique genres and storing them in data folder.
+GENRES = hf.get_unique_genres(DF_IMDB)
+hf.save_file(GENRES, 'data/', 'set_genres', '.pkl')
