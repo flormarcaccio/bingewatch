@@ -17,9 +17,11 @@ Finally, we provide a visualization tool for users to access our recommender sys
 
 - [Netlix prize data](https://www.kaggle.com/netflix-inc/netflix-prize-data). This dataset is available through Kaggle, and contains user IDs, movie IDs, ratings, and movie titles.
 
-### Data Manager
-The package does not run this module, as the data was processed in advance. However, if you want to run `data_manager.py` yourself you will need to follow some steps to download the "Netflix Prize Data" dataset, as it is stored on Kaggle.  
+## Data Processing
+
+- The preproccessing of the data is handled by `data_manager.py`. The package does not run this module, as the data was processed in advance and has already been output for use. However, if you want to run this script yourself you will need to follow the steps described below to download the "Netflix Prize Data" dataset, as it is stored on Kaggle.  
   
+<details>
 Option 1:
 
 - Manually download the dataset from the Kaggle website, and unzip the folder `netflix-prize-data` in the main directory of the repository.
@@ -30,6 +32,11 @@ Option 2:
 - Install the kaggle package from the terminal: `pip install kaggle`
 - Download the API Token from Kaggle: Go to [Kaggle website](https://www.kaggle.com/) -> Account -> API -> Create New API Token. This will download a json file with the following format: `{"username”:string_username,”key”:string_key}`
 - Place the json file into the hidden `.kaggle/` folder, created when you installed the package. If you cannot find this folder, run the command `kaggle` on your terminal. This will give you an error that looks like this: *“Could not find kaggle.json. Make sure it's located in path/to/the/.kaggle/directory.”* From there, you can get path where you are supposed to store your json file.
+</details>
+
+- `001_loading_data.py` reads in the movie data from both Netflix and IMDB data sources, keeps only variables and observations of interest, calculates movie similarity scores for the Netflix data and weighted ratings for the IMDB data, and outputs processed files for use in the visualization tool.
+
+- `filename_here` produces the visualization tool which shows the top movie recommendations based on user input.
 
 ### License
 This work is available under an MIT license, included in the repository.
