@@ -41,7 +41,8 @@ def parse_data(file_path):
     file_open = open(file_path, 'rt')
     file_data = file_open.readlines()
     final_list = []
-    for i, line in enumerate(file_data):
+    for element in enumerate(file_data):
+        line = element[1]
         if ':' in line:
             current_movie_id = int(line[:-2])
         elif ',' in line:
