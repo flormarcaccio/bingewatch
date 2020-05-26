@@ -34,7 +34,7 @@ Option 2:
 - Place the json file into the hidden `.kaggle/` folder, created when you installed the package. If you cannot find this folder, run the command `kaggle` on your terminal. This will give you an error that looks like this: *“Could not find kaggle.json. Make sure it's located in path/to/the/.kaggle/directory.”* From there, you can get path where you are supposed to store your json file.
 </details>
 
-- `001_loading_data.py` reads in the movie data from both Netflix and IMDB data sources, keeps only variables and observations of interest, calculates movie similarity scores for the Netflix data and weighted ratings for the IMDB data, and outputs processed files for use in the visualization tool.
+- `data_manager.py` reads in the movie data from both Netflix and IMDB data sources, keeps only variables and observations of interest, calculates movie similarity scores for the Netflix data and weighted ratings for the IMDB data, and outputs processed files for use in the visualization tool.
 
 - `filename_here` produces the visualization tool which shows the top movie recommendations based on user input.
 

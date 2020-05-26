@@ -4,7 +4,6 @@ IMDb website and the Netflix Prize Dataset from Kaggle. Please look at
 the instructions on how to obtain the Netflix dataset before executing
 this script.
 """
-import os
 import shutil
 
 import pandas as pd
@@ -30,8 +29,12 @@ DF_NETFLIX = pd.DataFrame(LIST_NF_DATA, columns=DF_NF_COLS)
 DICT_RECOMMENDATIONS = hf.get_recommended_movies(DF_NETFLIX)
 hf.save_file(DICT_RECOMMENDATIONS, 'data/', 'dict_recommendations', '.pkl')
 
-# Move and remove Netflix files.
-os.rename(NF_DIRECTORY+'/movie_titles.csv', 'data/movie_titles.csv')
+# Cleaning the movie_titles file
+TITLES_PATH = NF_DIRECTORY+'/movie_titles.csv'
+DF_TITLES = hf.format_movie_titles(TITLES_PATH)
+hf.save_file(DF_TITLES, 'data/', 'movie_titles', '.csv')
+
+#Deleting original Netflix dataset directory
 shutil.rmtree(NF_DIRECTORY)
 
 # IMDB

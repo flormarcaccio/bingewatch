@@ -75,6 +75,28 @@ def get_recommended_movies(movies):
     return similar_movies_dict
 
 
+def format_movie_titles(titles_path):
+    """
+    Remove the commas in the movie title and adds the Display column.
+    Parameters:
+        titles_path = path to the movie_titles file from the Netflix data.
+    Returns: A dataframe with the formatted data.
+    """
+    with open(titles_path, 'r', encoding='iso8859_2') as file:
+        data = file.readlines()
+    final_list = []
+    for line in data:
+        current_line = line[:-2]
+        current_line.replace('NULL', '')
+        tmp = current_line.split(',', 2)
+        title = tmp[2].replace(",", "")
+        new_item = [int(tmp[0]), tmp[1], title, title+' - '+tmp[1]]
+        final_list.append(new_item)
+    movie_titles = pd.DataFrame(final_list,
+                                columns=['Sno', 'Year', 'Final_title', 'Display'])
+    return movie_titles
+
+
 def download_gz_file(url):
     """
     Download and unzip tsv file.
