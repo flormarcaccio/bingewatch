@@ -2,7 +2,7 @@
   
 ## Final Project - Movie Recommendation System
 
-## Team Members - Bianca Zlavog, Florencia Marcaccio, Mansi Rathod, Sanjana Gupta
+### Team Members - Bianca Zlavog, Florencia Marcaccio, Mansi Rathod, Sanjana Gupta
 
 
 ## Project Summary
