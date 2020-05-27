@@ -8,17 +8,14 @@ import numpy as np
 import pickle
 import dash_table
 #from dash_dashboards_files.helper_functions import userchoice_based_movie_recommendation
-from helper_functions import *
+import netflix_movie_recommendation as nmr
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 ## Reading movie_title.csv for movie list dropdown
-movie_list = pd.read_csv("../data/movie_titles.csv", sep=",")
-movie_list.sort_values(by='Final_title', ascending=True, inplace=True)
-
-##Creating dummy file for debugging purpose
-##df_final11 = movie_list[:10]
+movies_df = nmr.reading_movie_title_csv()
+#movie_list.sort_values(by='Final_title', ascending=True, inplace=True)
 
 # Initialize the app
 app = dash.Dash(__name__)
@@ -29,23 +26,6 @@ colors = {
     'background1': '#112233',
     'text': '#7FBDFF'
 }
-
-
-## Setting up function for our dropdowns: movie_list, year_list, genre list
-def get_options(movie_list):
-    """
-    List all the unique elements of a column in dropdown
-    Args:
-        movie_list: Final_title
-    Returns: list of columns
-    """
-    dict_list = []
-    for i in movie_list:
-        dict_list.append({'label': i, 'value': i})
-    print(type(dict_list))
-    dict_list.pop()
-    return dict_list
-
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
@@ -73,8 +53,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
                  html.Div(
                      className='div-for-dropdown-and-table',
                      children=[
-                         dcc.Dropdown(id='movie_list_input', options=get_options(movie_list['Display'].unique()),
-                                      value=[movie_list['Display'].iloc[3]],
+                         dcc.Dropdown(id='movie_list_input', options=nmr.get_options(movies_df['Display'].unique()),
+                                      value=[movies_df['Display'].iloc[3]],
                                       style={'background': colors['background']},
                                       searchable=True
                                       )
@@ -91,25 +71,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 ]
 )
 
-
-def generate_table(dataframe, max_rows=10):
-    return html.Table([
-        html.Thead(
-            html.Tr([html.Th(col) for col in dataframe.columns])
-        ),
-        html.Tbody([
-            html.Tr([
-                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
-            ]) for i in range(min(len(dataframe), max_rows))
-        ])
-    ])
-
-
 @app.callback(Output('my-table', 'children'), [Input('movie_list_input', 'value')])
-def update_figure(selected_movie):
-    movie_list = userchoice_based_movie_recommendation(selected_movie)
+def update_table(selected_movie):
+    movie_list = nmr.userchoice_based_movie_recommendation(selected_movie)
     movie_list_op = movie_list
-    return generate_table(movie_list_op)
+    return nmr.generate_table(movie_list_op)
 
 
 if __name__ == '__main__':
