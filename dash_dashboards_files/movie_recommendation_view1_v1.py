@@ -7,26 +7,18 @@ from dash.dependencies import Input, Output
 import numpy as np
 import pickle
 import dash_table
+#from dash_dashboards_files.helper_functions import userchoice_based_movie_recommendation
+from helper_functions import *
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 ## Reading movie_title.csv for movie list dropdown
-movielist = pd.read_csv("/Users/mansirathod/Documents/Quarter_StudyMaterial/Spring2020/SoftwareDesign/movie_titles_v2.csv", sep=",", encoding='latin-1')
-movielist.head()
-movielist.sort_values(by='Final_title',ascending=True, inplace=True)
+movie_list = pd.read_csv("../data/movie_titles.csv", sep=",")
+movie_list.sort_values(by='Final_title', ascending=True, inplace=True)
 
-## Setting up a dummy dataframe
-selected_movie = 'A Christmas Carol'
-mv_id = movielist[movielist['Final_title'] == selected_movie]
-mvid_list = np.array(mv_id['Sno'])[0]
-##Calling the movie recommendation algorithm
-dict_rec = {}
-with open('/Users/mansirathod/Documents/Quarter_StudyMaterial/Spring2020/SoftwareDesign/movie-recommendation-system/data/dict_recommendations.pkl', 'rb') as f:
-    dict_rec = pickle.load(f)
-df_final11 = movielist.loc[dict_rec[mvid_list][0][:10]]
-
-#pd.read_csv("https://raw.githubusercontent.com/flormarcaccio/movie-recommendation-system/master/data/movie_titles.csv")
+##Creating dummy file for debugging purpose
+##df_final11 = movie_list[:10]
 
 # Initialize the app
 app = dash.Dash(__name__)
@@ -40,24 +32,20 @@ colors = {
 
 
 ## Setting up function for our dropdowns: movie_list, year_list, genre list
-def get_options(list_stocks):
+def get_options(movie_list):
+    """
+    List all the unique elements of a column in dropdown
+    Args:
+        movie_list: Final_title
+    Returns: list of columns
+    """
     dict_list = []
-    for i in list_stocks:
+    for i in movie_list:
         dict_list.append({'label': i, 'value': i})
-
+    print(type(dict_list))
+    dict_list.pop()
     return dict_list
 
-def generate_table(dataframe, max_rows=10):
-    return html.Table([
-        html.Thead(
-            html.Tr([html.Th(col) for col in dataframe.columns])
-        ),
-        html.Tbody([
-            html.Tr([
-                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
-            ]) for i in range(min(len(dataframe), max_rows))
-        ])
-    ])
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
@@ -75,7 +63,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
                  'color': colors['text']
              }
              ),
-    html.Div(className='eight columns div-user-controls',
+    html.Div(className='div-user-controls',
              children=[
                  html.H4(children='Enter a movie you have loved watching: ',
                          style={
@@ -83,14 +71,13 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
                              'color': colors['text']
                          }),
                  html.Div(
-                     className='div-for-dropdown',
+                     className='div-for-dropdown-and-table',
                      children=[
-                         dcc.Dropdown(id='movielist_input', options=get_options(movielist['Final_title'].unique()),
-                                       multi =True, value=[movielist['Final_title'][11940]],
-                                      style={'backgroundColor': colors['background']},
-                                      className='movielist_input', searchable=True
-                                      ),
-                         dash_table.DataTable(id="new_datatable")
+                         dcc.Dropdown(id='movie_list_input', options=get_options(movie_list['Display'].unique()),
+                                      value=[movie_list['Display'].iloc[3]],
+                                      style={'background': colors['background']},
+                                      searchable=True
+                                      )
                      ],
                      style={
                          'textAlign': 'left',
@@ -100,29 +87,36 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
              ]
              ),
-    ]
+    html.Div(id='my-table')
+]
 )
 
-@app.callback(Output('new_datatable', 'rows'),[Input('movielist_input', 'value')])
-def update_figure(selected_movie):
-    movie_id = movielist['Final_title' == selected_movie][0]
-    mv_id = movielist[movielist['Final_title'] == selected_movie]
-    mvid_list = np.array(mv_id['Sno'])[0]
-    ##Calling the movie recommendation algorithm
-    dict_rec = {}
-    with open(
-            '/Users/mansirathod/Documents/Quarter_StudyMaterial/Spring2020/SoftwareDesign/movie-recommendation-system'
-            '/data/dict_recommendations.pkl','rb') as f:
-        dict_rec = pickle.load(f)
 
-    df_final = movielist.loc[dict_rec[mvid_list][0][:10]]
-    return df_final.to_dict('records')
+def generate_table(dataframe, max_rows=10):
+    return html.Table([
+        html.Thead(
+            html.Tr([html.Th(col) for col in dataframe.columns])
+        ),
+        html.Tbody([
+            html.Tr([
+                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+            ]) for i in range(min(len(dataframe), max_rows))
+        ])
+    ])
+
+
+@app.callback(Output('my-table', 'children'), [Input('movie_list_input', 'value')])
+def update_figure(selected_movie):
+    movie_list = userchoice_based_movie_recommendation(selected_movie)
+    movie_list_op = movie_list
+    return generate_table(movie_list_op)
 
 
 if __name__ == '__main__':
     app.run_server(debug=True)
 
 """
+
 html.Div(id ='output',
              children=[
                  html.P('We believe based on your liking for the above movie, the following 10 movies will interest you the most:',
