@@ -41,8 +41,7 @@ def parse_data(file_path):
     file_open = open(file_path, 'rt')
     file_data = file_open.readlines()
     final_list = []
-    for element in enumerate(file_data):
-        line = element[1]
+    for line in file_data:
         if ':' in line:
             current_movie_id = int(line[:-2])
         elif ',' in line:
@@ -86,7 +85,7 @@ def format_movie_titles(titles_path):
         data = file.readlines()
     final_list = []
     for line in data:
-        current_line = line[:-2]
+        current_line = line[:-1]
         current_line.replace('NULL', '')
         tmp = current_line.split(',', 2)
         title = tmp[2].replace(",", "")
