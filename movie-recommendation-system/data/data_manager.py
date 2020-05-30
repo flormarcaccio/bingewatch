@@ -10,6 +10,7 @@ import pandas as pd
 
 import helper_functions as hf
 
+FINAL_DIR = 'processed/'
 # NETFLIX
 # Download the files, unzip them and get the data in a dataframe.
 NF_KAGGLE_USER = 'netflix-inc'
@@ -27,12 +28,12 @@ DF_NETFLIX = pd.DataFrame(LIST_NF_DATA, columns=DF_NF_COLS)
 
 # Get the movie recommendation dictionary and store in data folder.
 DICT_RECOMMENDATIONS = hf.get_recommended_movies(DF_NETFLIX)
-hf.save_file(DICT_RECOMMENDATIONS, 'data/', 'dict_recommendations', '.pkl')
+hf.save_file(DICT_RECOMMENDATIONS, FINAL_DIR, 'dict_recommendations', '.pkl')
 
 # Cleaning the movie_titles file
 TITLES_PATH = NF_DIRECTORY+'/movie_titles.csv'
 DF_TITLES = hf.format_movie_titles(TITLES_PATH)
-hf.save_file(DF_TITLES, 'data/', 'movie_titles', '.csv')
+hf.save_file(DF_TITLES, FINAL_DIR, 'movie_titles', '.csv')
 
 #Deleting original Netflix dataset directory
 shutil.rmtree(NF_DIRECTORY)
@@ -44,8 +45,8 @@ IMDB_RATINGS_URL = 'https://datasets.imdbws.com/title.ratings.tsv.gz'
 DF_IMDB_TITLES = hf.download_gz_file(IMDB_TITLES_URL)
 DF_IMDB_RATINGS = hf.download_gz_file(IMDB_RATINGS_URL)
 DF_IMDB = hf.clean_imdb_data(DF_IMDB_TITLES, DF_IMDB_RATINGS)
-hf.save_file(DF_IMDB, 'data/', 'imdb_df', '.csv')
+hf.save_file(DF_IMDB, FINAL_DIR, 'imdb_df', '.csv')
 
 # Get unique genres and storing them in data folder.
 GENRES = hf.get_unique_genres(DF_IMDB)
-hf.save_file(GENRES, 'data/', 'set_genres', '.pkl')
+hf.save_file(GENRES, FINAL_DIR, 'set_genres', '.pkl')
