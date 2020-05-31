@@ -1,139 +1,29 @@
 import dash
+from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_core_components as dcc
-import pandas as pd
-#import helper_functions
-import imdb
-from dash.dependencies import Input, Output
+import tab2
+import movie_recommendation_view1_v1
 
-df_imdb = imdb.load_data()
-genres = imdb.load_genres()
+app = dash.Dash()
 
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app.config['suppress_callback_exceptions'] = True
 
 app.layout = html.Div([
-    dcc.Tabs(id='tabs-example', value='tab-1', children=[
-        dcc.Tab(label='Movie Recommendation System', value='tab-1'),
-        dcc.Tab(label='Top 10 Based on Genre/Year', value='tab-2', children = [
-            html.Div(
-                [
-                    html.P('Get the top 10 most popular movies based on your selection.')
-                ], 
-                style={'marginBottom': 30, 
-                       'marginTop': 25, 
-                       'fontSize':18}),
+    html.H1('Dash Tabs component demo'),
+    dcc.Tabs(id="tabs-example", value='tab-1-example', children=[
+        dcc.Tab(label='Tab One', value='tab-1-example'),
+        dcc.Tab(label='Tab Two', value='tab-2-example'),
+    ]),
+    html.Div(id='tabs-content-example')
+])
 
-            html.Div([
-                html.Label('Filter by:'),
-                dcc.Checklist(
-                        id = 'filter-checklist',
-                        options=[
-                            {'label': 'Genre', 'value': 'Genre'},
-                            {'label': 'Year', 'value': 'Year'}
-                        ],
-                        value=['Genre', 'Year']
-                    )
+@app.callback(Output('tabs-content-example', 'children'),
+              [Input('tabs-example', 'value')])
 
-                ],
-                style={'margin-bottom': '50px',
-                        'margin-left':'20px'}),
-
-            html.Div(id = 'slider-wrapper', children = 
-             [
-                html.Label('Year:'),
-                 dcc.Slider
-                (
-                    id='year-slider',
-                    min = int(df_imdb['startYear'].min()),
-                    max = int(df_imdb['startYear'].max()),
-                    value = int(df_imdb['startYear'].max()),
-                    included=False,
-                    updatemode = 'drag',
-                    tooltip = {'always_visible': True}
-                ),
-            ],
-            style={'margin-bottom': '50px',
-                   'margin-left': '20px',
-                   'margin-right': '20px',
-                   'text-orientation': 'mixed'}),
-        
-        html.Div([  
-            html.Div([
-                html.Label('Select the genre you would like to see:'),
-                    dcc.Dropdown(
-                     id = 'genre-dropdown',
-                     options = [{'label': i, 'value': i} for i in genres],
-                     placeholder = 'Select Genre',
-                 )],
-                    style={'width': '48%',
-                            'margin-bottom': '50px',
-                            'margin-left':'20px',
-                            'display': 'inline-block'}
-            ),
-               
-            html.Div([
-                html.Label('Select the type of content you would like to see:'),
-                    dcc.RadioItems(
-                        id='title-type',
-                        options = [{'label': 'Movie', 'value' : 'movie'},
-                                    {'label' :'TV Series', 'value': 'tvSeries'}],
-                        value='movie',
-                        labelStyle={'display': 'inline-block', 'padding': '10px'}
-                )],
-                    style={'width': '48%', 'float': 'right', 'display': 'inline-block'}
-            ),
-        ]),
-
-        html.Div([
-            dcc.Graph(style={'height': '400px', 
-                             'width': '1300px', 
-                             'margin-left':'auto', 
-                             'margin-right':'auto'},
-                      id='graph-with-slider')
-                ])
-            ])
-        ]),
-   ])
-    
-@app.callback(
-    Output('graph-with-slider', 'figure'),
-    [Input('filter-checklist', 'value'),
-    Input('year-slider', 'value'),
-    Input('title-type', 'value'),
-    Input('genre-dropdown', 'value')
-   ])
-
-  
-def update_figure(selected_filters, selected_year, selected_type, selected_genre):
-
-    genre_filtered = imdb.filter_selected(selected_filters, 'Genre')
-    year_filtered = imdb.filter_selected(selected_filters, 'Year')
-    
-    final_df = imdb.filter_type(df_imdb, selected_type)
-
-
-    if genre_filtered and selected_genre:
-        final_df = imdb.filter_genre(final_df, selected_genre)
-    if year_filtered and selected_year:
-        final_df = imdb.filter_year(final_df, selected_year)
-
-    final_df = imdb.filter_top10(final_df)
-
-
-
-    return {
-        'data': [{'x': final_df['primaryTitle'], 'y' : final_df['weightedAverage'], 'type' : 'bar'}],
-        'layout': dict(
-            hovermode = 'closest',
-            #height = 500,
-            title = 'Top 10 Most Popular',
-            yaxis = {'title': 'Weighted Average'}
-        )
-    }
-
-
-if __name__ == '__main__':
-    app.run_server(debug=True)
+def render_content(tab):
+    if tab == 'tab-1-example':
+        #return movie_recommendation_view1_v1.tab_1_layout
+        return 0
+    elif tab == 'tab-2-example':
+        return tab2.layout
