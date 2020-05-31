@@ -21,13 +21,13 @@ install:
     - conda config --set always_yes yes --set changeps1 no
     - conda update -q conda
     - conda info -a
+    - pip install -r requirements.txt
     - conda env create -f environment.yml
     - source activate mrs
     - conda install pylint
     - conda install pytest-cov
     - pip install coverage
     - pip install coveralls
-    - pip install -r requirements.txt
 
 
 # the actual commands to run
