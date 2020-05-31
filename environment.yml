@@ -4,13 +4,10 @@ channels:
   - defaults
 dependencies:
   - urllib3
-  - os
-  - sys
   - zipfile
   - pandas
   - numpy
   - scipy
-  - sklearn.metrics.pairwise
   - pylint
   - dash==1.12.0
   - dash-core-components==1.10.0         
