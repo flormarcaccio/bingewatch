@@ -4,7 +4,6 @@ channels:
   - defaults
 dependencies:
   - urllib3
-  - zipfile
   - pandas
   - numpy
   - scipy
