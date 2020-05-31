@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import dash_html_components as html
 
-movie-recommendation-system/data/processed/movie_titles.csv
+
 def reading_movie_title_csv():
     movies_df = pd.read_csv("movie-recommendation-system/data/processed/movie_titles.csv", sep=",")
     movies_df.sort_values(by='Final_title', ascending=True, inplace=True)
@@ -27,7 +27,7 @@ def get_options(movies_df):
 
 
 def userchoice_based_movie_recommendation(selected_movie):
-    movies_df = pd.read_csv("../data/movie_titles.csv", sep=",")
+    movies_df = pd.read_csv("movie-recommendation-system/data/processed/movie_titles.csv", sep=",")
     if type(selected_movie) is list:
         movie_details = movies_df[movies_df['Display'] == selected_movie[0]]
     else:
@@ -35,7 +35,7 @@ def userchoice_based_movie_recommendation(selected_movie):
     movie_id = movie_details['Sno'].iloc[0]
     ##Calling the movie recommendation algorithm
     dict_rec = {}
-    with open('../data/dict_recommendations.pkl', 'rb') as f:
+    with open("movie-recommendation-system/data/processed/dict_recommendations.pkl", 'rb') as f:
         dict_rec = pickle.load(f)
     # print(dict_rec[movie_id_list])
     recommended_movie_ids = dict_rec[movie_id][0][:10]

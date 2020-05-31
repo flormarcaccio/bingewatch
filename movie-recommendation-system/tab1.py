@@ -8,7 +8,7 @@ import numpy as np
 import pickle
 import dash_table
 #from dash_dashboards_files.helper_functions import userchoice_based_movie_recommendation
-import netflix_recommendation_helper_function as nmr
+import netflix as nmr
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -22,9 +22,9 @@ app = dash.Dash(__name__)
 app.config.suppress_callback_exceptions = True
 
 colors = {
-    'background': '#665544',
-    'background1': '#112233',
-    'text': '#7FBDFF'
+    'background': 'white',
+    'background1': 'light blue',
+    'text': 'black'
 }
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
