@@ -13,4 +13,3 @@ dependencies:
   - dash-core-components==1.10.0         
   - dash-html-components==1.0.3
   - kaggle==1.5.6
-  - unittest
