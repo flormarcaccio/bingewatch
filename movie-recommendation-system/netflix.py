@@ -4,9 +4,9 @@ import pandas as pd
 import numpy as np
 import dash_html_components as html
 
-
+movie-recommendation-system/data/processed/movie_titles.csv
 def reading_movie_title_csv():
-    movies_df = pd.read_csv("../data/movie_titles.csv", sep=",")
+    movies_df = pd.read_csv("movie-recommendation-system/data/processed/movie_titles.csv", sep=",")
     movies_df.sort_values(by='Final_title', ascending=True, inplace=True)
     return movies_df
 
