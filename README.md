@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/flormarcaccio/movie-recommendation-system.svg?branch=master)](https://travis-ci.com/flormarcaccio/movie-recommendation-system)
+
 # [UW DATA 515A](http://uwseds.github.io/grading.html) - Software Engineering for Data Scientists
   
 ## Final Project - Movie Recommendation System
