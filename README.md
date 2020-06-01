@@ -26,7 +26,7 @@ Finally, we provide a visualization tool for users to access our recommender sys
 <details>
 Option 1:
 
-- Manually download the dataset from the Kaggle website, and unzip the folder `netflix-prize-data` in the main directory of the repository.
+- Manually download the dataset from the Kaggle website, and unzip the folder `netflix-prize-data` in the /movie-recommendation-system/data directory, at the same level as data_manager.py.
 - Comment the line 18 from *data_manager.py*, so that it appear like:
 `#hf.download_netflix_data(NF_KAGGLE_USER, NF_DIRECTORY)`
   
