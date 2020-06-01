@@ -10,7 +10,7 @@
 ## Project Summary
 With the current advancements of so many online streaming websites for movies, one can now watch any movie or show old and new. However, with such a sheer volume of movies, it becomes overwhelming to browse among them and find a movie of one’s choice and taste. We have built a collaborative filtering-based recommendation system that provides movie and TV show suggestions based on similar profiles of its users. The goal is to create a personalized streaming experience based on the user’s preference and liking. 
 
-In our first use case, the user wants to see movies similar to a liked movie. For this, we leverage the Netflix prize dataset and calculate the correlation between all entries in a user-item matrix to obtain the movies with highest similarity scores to the user's input movie. In another use case, the user wants to see the top 10 movies from a particular genre or year. Here we employ the IMDB movie datasets and subset to the user specifications to obtain a list of the top movies based on rating score wighted by the number of ratings.
+In our first use case, the user wants to see movies similar to a liked movie. For this, we leverage the Netflix prize dataset and calculate the cosine similarity between all entries in a item-item matrix to obtain the movies with highest similarity scores to the user's input movie. In another use case, the user wants to see the top 10 movies from a particular genre or year. Here we employ the IMDB movie datasets and subset to the user specifications to obtain a list of the top movies based on rating score wighted by the number of ratings.
 
 Finally, we provide a visualization tool for users to access our recommender system through a web application built in Dash.
 
