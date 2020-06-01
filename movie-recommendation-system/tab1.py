@@ -26,6 +26,7 @@ colors = {
     'text': 'black'
 }
 
+# noinspection PyPackageRequirements,PyPackageRequirements,PyPackageRequirements
 tab1.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
         children='Movie Recommendation: Get your next watch here!',
@@ -65,17 +66,15 @@ tab1.layout = html.Div(style={'backgroundColor': colors['background']}, children
                           )
              ]
              ),
-    html.Div(id='my-table',
-             style={'width': '100%',
-                    'margin-top': '15px',
-                    'margin-bottom': '50px',
-                    'margin-left': '80px',
-                    'display': 'inline-block',
-                    'if': {'row_index': 'odd', 'background': 'red'}
-                    }
-             ),
-    html.Div([
-        dcc.Graph(id='my-scatter-plot')])
+    html.Div(id='output',
+             className='row',
+             children=[html.Div(id='my-table',
+                                className='six columns'),
+                       html.Div(dcc.Graph(id='my-scatter-plot'),
+                                className='five columns')
+                       ]
+             )
+
 ]
 )
 
@@ -90,50 +89,70 @@ def update_table(selected_movie):
 def update_figure(selected_movie):
     movie_list2 = nmr.userchoice_based_movie_recommendation(selected_movie)
     traces = []
-    for i in movie_list2.Movie_Title.unique():
-        one_movie_info = movie_list2[movie_list2['Movie_Title'] == i]
-        traces.append(dict(
-            x=one_movie_info['Year_of_Release'],
-            y=one_movie_info['%Match'],
-            text=one_movie_info['Movie_Title'],
-            mode='markers',
-            opacity=0.7,
-            marker={
-                'size': 15,
-                'line': {'width': 0.5, 'color': 'white'}
-            },
-            name=i
-        ))
-
     return {
-        'data': traces,
+        'data': [{'x': movie_list2['Movie_Title'], 'y': movie_list2['%Match'], 'type': 'bar'}],
         'layout': dict(
-            xaxis={'type': 'log', 'title': 'Year of Release'},
-            yaxis={'title': '%Match'},
-            margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
             hovermode='closest',
-            transition={'duration': 500}
+            title='Top 10 Most Recommended',
+            yaxis={'title': '%Match'},
+            margin={'l': 50, 'b': 150, 't': 40, 'r': 10}
         )
     }
+    # for i in movie_list2.Movie_Title.unique():
+    #     one_movie_info = movie_list2[movie_list2['Movie_Title'] == i]
+    #     traces.append(dict(
+    #         x=one_movie_info['Year_of_Release'],
+    #         y=one_movie_info['%Match'],
+    #         #text=one_movie_info['Movie_Title'],
+    #         mode='markers',
+    #         opacity=0.7,
+    #         marker={
+    #             'size': 15,
+    #             'line': {'width': 0.1, 'color': 'white'}
+    #         },
+    #         name=i
+    #     ))
+    # return {
+    #     'data': traces,
+    #     'layout': dict(
+    #         xaxis={'title': 'Year of Release'},
+    #         yaxis={'title': '%Match'},
+    #         margin={'l': 80, 'b': 40, 't': 10, 'r': 10},
+    #         hovermode='closest'
+    #     )
+    # }
 
 
 if __name__ == '__main__':
     tab1.run_server(debug=True)
 
-"""
 
-html.Div(id ='output',
-             children=[
-                 html.P('We believe based on your liking for the above movie, the following 10 movies will interest you the most:',
-                        style={
-                            'textAlign': 'center',
-                            'color': colors['text']
-                            }
-                        )
-                 ]
-             ),
-    dash_table.DataTable(id='df_output',
-                         columns=[{"name": i, "id": i} for i in movielist.columns]
-                         )
-
-"""
+# html.Div(id='output',
+#              children=[
+#                  html.Div(id='my-table',
+#                           children=[
+#                               html.Div(dcc.Graph(id='my-scatter-plot'))
+#                           ],
+#                           style={'width': '50%',
+#                                  'marginTop': '15px',
+#                                  'marginBottom': '50px',
+#                                  'marginLeft': '80px',
+#                                  'display': 'inline-block'
+#                                  }
+#                          ),
+#                  html.Div(id='output_2',
+#                           children=[dcc.Graph(id='my-scatter-plot',
+#                                               style={'width': '50%',
+#                                                      'marginTop': '15px',
+#                                                      'marginBottom': '50px',
+#                                                      'marginLeft': '80px',
+#                                                      'display': 'inline-block'
+#                                                      }
+#                                               )]
+#                           )
+#                  ])
+#
+# marker={
+#                 'size': 15,
+#                 'line': {'width': 0.1, 'color': 'white'}
+#             },
