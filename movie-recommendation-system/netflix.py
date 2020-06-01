@@ -39,7 +39,12 @@ def userchoice_based_movie_recommendation(selected_movie):
         dict_rec = pickle.load(f)
     # print(dict_rec[movie_id_list])
     recommended_movie_ids = dict_rec[movie_id][0][:10]
+    recommended_movie_scores = dict_rec[movie_id][1][:10]
     top10_movies = movies_df[movies_df.Sno.isin(recommended_movie_ids)]
+    top10_movies['%Match'] = recommended_movie_scores
+    top10_movies['%Match'] = round(top10_movies['%Match'],2)*100
+    top10_movies = top10_movies.drop(['Sno', 'Display'], axis=1)
+    top10_movies.columns = ['Year_of_Release','Movie_Title', '%Match']
     # movie_list = movie_list[dict_rec[movie_id][0][:10]]  ##//compilation error
     # movie_list = movie_list.head(10)
     return top10_movies

@@ -7,7 +7,7 @@ from dash.dependencies import Input, Output
 import numpy as np
 import pickle
 import dash_table
-#from dash_dashboards_files.helper_functions import userchoice_based_movie_recommendation
+# from dash_dashboards_files.helper_functions import userchoice_based_movie_recommendation
 import netflix as nmr
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -53,34 +53,37 @@ tab1.layout = html.Div(style={'backgroundColor': colors['background']}, children
                      className='div-for-dropdown-and-table',
                      children=[
                          dcc.Dropdown(id='movie_list_input', options=nmr.get_options(movies_df['Display'].unique()),
-                                      value=[movies_df['Display'].iloc[11940]],
-                                      searchable=True
-                                     )
-                              ],
-                     style={
-                         'textAlign': 'left',
-                         'color': colors['text']
-                     }
+                                      value=[movies_df['Display'].iloc[11940]], searchable=True
+                                      )
+                     ]
                  ),
+                 html.Div(children=[html.H1("\n \n")]),
                  html.Div(id='after_input_text',
-                          children= [html.P("We believe based on your liking for the above movie, "
-                                            "the following 10 movies will interest you the most:",)],
+                          children=[html.P("\n\nWe believe based on your liking for the above movie, "
+                                           "the following 10 movies will interest you the most:")],
                           style={'text-orientation': 'left'}
                           )
              ]
              ),
     html.Div(id='my-table',
-             style={'textAlign': 'center'}
+             style={'width': '100%',
+                    'margin-top': '15px',
+                    'margin-bottom': '50px',
+                    'margin-left': '80px',
+                    'display': 'inline-block',
+                    'if': {'row_index': 'odd', 'background': 'red'}
+                    }
+
              )
 ]
-)
+                       )
+
 
 @tab1.callback(Output('my-table', 'children'), [Input('movie_list_input', 'value')])
 def update_table(selected_movie):
     movie_list = nmr.userchoice_based_movie_recommendation(selected_movie)
     movie_list_op = movie_list
     return nmr.generate_table(movie_list_op)
-
 
 if __name__ == '__main__':
     tab1.run_server(debug=True)
