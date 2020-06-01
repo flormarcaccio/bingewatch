@@ -11,15 +11,14 @@ import dash_table
 import netflix as nmr
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+tab1 = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 ## Reading movie_title.csv for movie list dropdown
 movies_df = nmr.reading_movie_title_csv()
-#movie_list.sort_values(by='Final_title', ascending=True, inplace=True)
 
 # Initialize the app
-app = dash.Dash(__name__)
-app.config.suppress_callback_exceptions = True
+tab1 = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+tab1.config.suppress_callback_exceptions = True
 
 colors = {
     'background': 'white',
@@ -27,7 +26,7 @@ colors = {
     'text': 'black'
 }
 
-app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
+tab1.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
         children='Movie Recommendation: Get your next watch here!',
         style={
@@ -54,24 +53,29 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
                      className='div-for-dropdown-and-table',
                      children=[
                          dcc.Dropdown(id='movie_list_input', options=nmr.get_options(movies_df['Display'].unique()),
-                                      value=[movies_df['Display'].iloc[3]],
-                                      style={'background': colors['background']},
+                                      value=[movies_df['Display'].iloc[11940]],
                                       searchable=True
-                                      )
-                     ],
+                                     )
+                              ],
                      style={
                          'textAlign': 'left',
                          'color': colors['text']
                      }
-                 )
-
+                 ),
+                 html.Div(id='after_input_text',
+                          children= [html.P("We believe based on your liking for the above movie, "
+                                            "the following 10 movies will interest you the most:",)],
+                          style={'text-orientation': 'left'}
+                          )
              ]
              ),
-    html.Div(id='my-table')
+    html.Div(id='my-table',
+             style={'textAlign': 'center'}
+             )
 ]
 )
 
-@app.callback(Output('my-table', 'children'), [Input('movie_list_input', 'value')])
+@tab1.callback(Output('my-table', 'children'), [Input('movie_list_input', 'value')])
 def update_table(selected_movie):
     movie_list = nmr.userchoice_based_movie_recommendation(selected_movie)
     movie_list_op = movie_list
@@ -79,7 +83,7 @@ def update_table(selected_movie):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    tab1.run_server(debug=True)
 
 """
 
