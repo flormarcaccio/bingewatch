@@ -1,0 +1,9 @@
+urllib3
+pandas
+numpy
+scipy
+pylint
+dash==1.12.0
+dash-core-components==1.10.0         
+dash-html-components==1.0.3
+kaggle==1.5.6
