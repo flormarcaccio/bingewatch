@@ -53,7 +53,7 @@ tab1.layout = html.Div(style={'backgroundColor': colors['background']}, children
                      className='div-for-dropdown-and-table',
                      children=[
                          dcc.Dropdown(id='movie_list_input', options=nmr.get_options(movies_df['Display'].unique()),
-                                      value=[movies_df['Display'].iloc[11940]], searchable=True
+                                      value=[movies_df['Display'].iloc[206]], searchable=True
                                       )
                      ]
                  ),
@@ -73,17 +73,49 @@ tab1.layout = html.Div(style={'backgroundColor': colors['background']}, children
                     'display': 'inline-block',
                     'if': {'row_index': 'odd', 'background': 'red'}
                     }
-
-             )
+             ),
+    html.Div([
+        dcc.Graph(id='my-scatter-plot')])
 ]
-                       )
-
+)
 
 @tab1.callback(Output('my-table', 'children'), [Input('movie_list_input', 'value')])
 def update_table(selected_movie):
     movie_list = nmr.userchoice_based_movie_recommendation(selected_movie)
     movie_list_op = movie_list
     return nmr.generate_table(movie_list_op)
+
+
+@tab1.callback(Output('my-scatter-plot', 'figure'),  [Input('movie_list_input', 'value')])
+def update_figure(selected_movie):
+    movie_list2 = nmr.userchoice_based_movie_recommendation(selected_movie)
+    traces = []
+    for i in movie_list2.Movie_Title.unique():
+        one_movie_info = movie_list2[movie_list2['Movie_Title'] == i]
+        traces.append(dict(
+            x=one_movie_info['Year_of_Release'],
+            y=one_movie_info['%Match'],
+            text=one_movie_info['Movie_Title'],
+            mode='markers',
+            opacity=0.7,
+            marker={
+                'size': 15,
+                'line': {'width': 0.5, 'color': 'white'}
+            },
+            name=i
+        ))
+
+    return {
+        'data': traces,
+        'layout': dict(
+            xaxis={'type': 'log', 'title': 'Year of Release'},
+            yaxis={'title': '%Match'},
+            margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
+            hovermode='closest',
+            transition={'duration': 500}
+        )
+    }
+
 
 if __name__ == '__main__':
     tab1.run_server(debug=True)
