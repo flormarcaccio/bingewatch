@@ -11,14 +11,13 @@ import dash_table
 import netflix as nmr
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-tab1 = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 ## Reading movie_title.csv for movie list dropdown
 movies_df = nmr.reading_movie_title_csv()
 
 # Initialize the app
-tab1 = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-tab1.config.suppress_callback_exceptions = True
+#tab1_layout = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+#tab1_layout.config.suppress_callback_exceptions = True
 
 colors = {
     'background': 'white',
@@ -26,23 +25,9 @@ colors = {
     'text': 'black'
 }
 
-# noinspection PyPackageRequirements,PyPackageRequirements,PyPackageRequirements
-tab1.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
-    html.H1(
-        children='Movie Recommendation: Get your next watch here!',
-        style={
-            'textAlign': 'center',
-            'color': colors['text']
-        }
-    ),
-    html.Div(children='This is a movie recommendation webpage. Get your next watch just by entering either your '
-                      'favorite movie. You are also free to enter your most liked genre or year of watch and we will '
-                      'find the most relevant movies and/or tv series that will absolutely delight you! So, lets go!!',
-             style={
-                 'textAlign': 'center',
-                 'color': colors['text']
-             }
-             ),
+
+########################################### Tab 1 Layout ################################################################################
+tab1_layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.Div(className='div-user-controls',
              children=[
                  html.H4(children='Enter a movie you have loved watching: ',
@@ -69,35 +54,36 @@ tab1.layout = html.Div(style={'backgroundColor': colors['background']}, children
     html.Div(id='output',
              className='row',
              children=[html.Div(id='my-table',
-                                className='six columns'),
+                                className='five columns'),
                        html.Div(dcc.Graph(id='my-scatter-plot'),
-                                className='five columns')
+                                className='seven columns')
                        ]
              )
 
 ]
 )
 
-@tab1.callback(Output('my-table', 'children'), [Input('movie_list_input', 'value')])
-def update_table(selected_movie):
-    movie_list = nmr.userchoice_based_movie_recommendation(selected_movie)
-    movie_list_op = movie_list
-    return nmr.generate_table(movie_list_op)
-
-
-@tab1.callback(Output('my-scatter-plot', 'figure'),  [Input('movie_list_input', 'value')])
-def update_figure(selected_movie):
-    movie_list2 = nmr.userchoice_based_movie_recommendation(selected_movie)
-    traces = []
-    return {
-        'data': [{'x': movie_list2['Movie_Title'], 'y': movie_list2['%Match'], 'type': 'bar'}],
-        'layout': dict(
-            hovermode='closest',
-            title='Top 10 Most Recommended',
-            yaxis={'title': '%Match'},
-            margin={'l': 50, 'b': 150, 't': 40, 'r': 10}
-        )
-    }
+# @tab1_layout.callback(Output('my-table', 'children'), [Input('movie_list_input', 'value')])
+# def update_table(selected_movie):
+#     movie_list = nmr.userchoice_based_movie_recommendation(selected_movie)
+#     movie_list_op = movie_list
+#     return nmr.generate_table(movie_list_op)
+#
+#
+# @tab1_layout.callback(Output('my-scatter-plot', 'figure'),  [Input('movie_list_input', 'value')])
+# def update_figure(selected_movie):
+#     movie_list2 = nmr.userchoice_based_movie_recommendation(selected_movie)
+#     traces = []
+#     return {
+#         'data': [{'x': movie_list2['Movie_Title'], 'y': movie_list2['%Match'], 'type': 'bar'}],
+#         'layout': dict(
+#             hovermode='closest',
+#             title='Top 10 Most Recommended',
+#             yaxis={'title': '%Match'},
+#             margin={'l': 50, 'b': 150, 't': 40, 'r': 10}
+#         )
+#     }
+#
     # for i in movie_list2.Movie_Title.unique():
     #     one_movie_info = movie_list2[movie_list2['Movie_Title'] == i]
     #     traces.append(dict(
@@ -123,8 +109,8 @@ def update_figure(selected_movie):
     # }
 
 
-if __name__ == '__main__':
-    tab1.run_server(debug=True)
+#if __name__ == '__main__':
+#    tab1_layout.run_server(debug=True)
 
 
 # html.Div(id='output',
