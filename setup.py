@@ -1,13 +1,13 @@
-"""Information about the package movie-recommendation-system."""
+"""Information about the package bingewatch."""
 from setuptools import setup, find_packages
 
 PACKAGES = find_packages()
 DESCRIPTION = 'An interactive dashboard to find the best movie or TV show ' \
     'recommendation based on the preferences of the user.'
-URL = 'https://github.com/flormarcaccio/movie-recommendation-system.git'
+URL = 'https://github.com/flormarcaccio/bingewatch.git'
 
 OPTS = dict(
-    name='movie-recommendation-system',
+    name='bingewatch',
     description=DESCRIPTION,
     url=URL,
     license='MIT',
