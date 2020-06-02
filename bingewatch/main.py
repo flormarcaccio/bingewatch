@@ -3,8 +3,15 @@ from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_core_components as dcc
 import tab1
-import tab2_dummy as tab2
+#import tab2_dummy as tab2
+import tab2
 import netflix as nmr
+import imdb
+
+IMDB_PATH = 'data/processed/imdb_df.csv'
+GENRES_PATH = 'data/processed/set_genres.pkl'
+df_imdb = imdb.load_data(IMDB_PATH)
+genres = imdb.load_genres(GENRES_PATH)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -46,6 +53,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']},
 
 @app.callback(Output('tabs-content-display', 'children'),
               [Input('tabs-example', 'value')])
+
 def render_content(tab):
     if tab == 'tab-1':
         return tab1.tab1_layout
@@ -76,11 +84,46 @@ def update_figure(selected_movie):
 
 
 # Tab 2 callback
-@app.callback(Output('my-table2', 'children'), [Input('movie_list_input2', 'value')])
+@app.callback(Output('m', 'children'), [Input('movie_list_input2', 'value')])
 def update_table(selected_movie):
     movie_list = nmr.userchoice_based_movie_recommendation(selected_movie)
     movie_list_op = movie_list
     return nmr.generate_table(movie_list_op)
+
+
+# Tab 2
+@app.callback(
+    Output('graph-with-slider', 'figure'),
+    [Input('filter-checklist', 'value'),
+    Input('year-slider', 'value'),
+    Input('title-type', 'value'),
+    Input('genre-dropdown', 'value')
+   ])
+
+def update_figure(selected_filters, selected_year, selected_type, selected_genre):
+
+    genre_filtered = imdb.filter_selected(selected_filters, 'Genre')
+    year_filtered = imdb.filter_selected(selected_filters, 'Year')
+
+    final_df = imdb.filter_type(df_imdb, selected_type)
+    if genre_filtered and selected_genre:
+        final_df = imdb.filter_genre(final_df, selected_genre)
+    if year_filtered and selected_year:
+        final_df = imdb.filter_year(final_df, selected_year)
+
+    final_df = imdb.filter_top10(final_df)
+
+
+
+    return {
+        'data': [{'x': final_df['primaryTitle'], 'y' : final_df['weightedAverage'], 'type' : 'bar'}],
+        'layout': dict(
+            hovermode = 'closest',
+            #height = 500,
+            title = 'Top 10 Most Popular',
+            yaxis = {'title': 'Weighted Average'}
+        )
+    }
 
 
 app.css.append_css({

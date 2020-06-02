@@ -14,20 +14,9 @@ genres = imdb.load_genres(GENRES_PATH)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+#app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-tab2.layout = html.Div([
-    dcc.Tabs(id='tabs-example', value='tab-1', children=[
-        dcc.Tab(label='Movie Recommendation System', value='tab-1'),
-        dcc.Tab(label='Top 10 Based on Genre/Year', value='tab-2', children = [
-            html.Div(
-                [
-                    html.P('Get the top 10 most popular movies based on your selection.')
-                ], 
-                style={'marginBottom': 30, 
-                       'marginTop': 25, 
-                       'fontSize':18}),
-
+tab2_layout = html.Div([
             html.Div([
                 html.Label('Filter by:'),
                 dcc.Checklist(
@@ -96,46 +85,4 @@ tab2.layout = html.Div([
                              'margin-right':'auto'},
                       id='graph-with-slider')
                 ])
-            ])
-        ]),
-   ])
-    
-@app.callback(
-    Output('graph-with-slider', 'figure'),
-    [Input('filter-checklist', 'value'),
-    Input('year-slider', 'value'),
-    Input('title-type', 'value'),
-    Input('genre-dropdown', 'value')
-   ])
-
-  
-def update_figure(selected_filters, selected_year, selected_type, selected_genre):
-
-    genre_filtered = imdb.filter_selected(selected_filters, 'Genre')
-    year_filtered = imdb.filter_selected(selected_filters, 'Year')
-    
-    final_df = imdb.filter_type(df_imdb, selected_type)
-
-
-    if genre_filtered and selected_genre:
-        final_df = imdb.filter_genre(final_df, selected_genre)
-    if year_filtered and selected_year:
-        final_df = imdb.filter_year(final_df, selected_year)
-
-    final_df = imdb.filter_top10(final_df)
-
-
-
-    return {
-        'data': [{'x': final_df['primaryTitle'], 'y' : final_df['weightedAverage'], 'type' : 'bar'}],
-        'layout': dict(
-            hovermode = 'closest',
-            #height = 500,
-            title = 'Top 10 Most Popular',
-            yaxis = {'title': 'Weighted Average'}
-        )
-    }
-
-
-if __name__ == '__main__':
-    app.run_server(debug=True)
+])
