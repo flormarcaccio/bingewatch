@@ -5,8 +5,8 @@ import pickle
 import os
 import sys
 sys.path.append('../data')
-from bingewatch.data.helper_functions import *
-from bingewatch.imdb import *
+import bingewatch.data.helper_functions as hf
+import bingewatch.imdb as imdb
 
 
 class test_df(unittest.TestCase):
@@ -19,7 +19,7 @@ class test_df(unittest.TestCase):
 
 	def test_unique_genres(self):
 		self.assertEqual(
-			get_unique_genres(self.test_df), 
+			hf.get_unique_genres(self.test_df), 
 			set(["Action", "Comedy", "Romance"]))
 
 	def test_save_file(self):
@@ -27,9 +27,14 @@ class test_df(unittest.TestCase):
 		Check that the save_file function correctly outputs a csv file,
 		then remove the created file.
 		"""
-		save_file(self.test_df, "./", "test_file", ".csv")
+		hf.save_file(self.test_df, "./", "test_file", ".csv")
 		self.assertTrue(os.path.exists('./test_file.csv'))
 		os.system("rm test_file.csv")
+
+	def test_download_gz_file(self):
+		imdb_url = 'https://datasets.imdbws.com/title.ratings.tsv.gz'
+		generated_df = hf.download_gz_file(imdb_url)
+		self.assertGreater(len(generated_df), 0)
 
 	def test_download_netflix_data(self):
 		pass
@@ -43,8 +48,6 @@ class test_df(unittest.TestCase):
 	def test_format_movie_titles(self):
 		pass
 
-	def test_download_gz_file(self):
-		pass
 
 	def test_clean_imdb_data(self):
 		pass
@@ -69,29 +72,29 @@ class test_imdb(unittest.TestCase):
 
 	def test_load_data(self):
 		original_file = pd.read_csv('bingewatch/data/processed/imdb_df.csv')
-		self.assertEqual(len(load_data('bingewatch/data/processed/imdb_df.csv')),
+		self.assertEqual(len(imdb.load_data('bingewatch/data/processed/imdb_df.csv')),
 			len(original_file))
 
 	def test_load_genres(self):
 		with open('bingewatch/data/processed/set_genres.pkl', 'rb') as f:
 			original_file = pickle.load(f)
-		self.assertEqual(load_genres('bingewatch/data/processed/set_genres.pkl'),
+		self.assertEqual(imdb.load_genres('bingewatch/data/processed/set_genres.pkl'),
 			list(original_file))
 
 	def test_filter_type(self):
-		self.assertEqual(len(filter_type(self.test_df, 'Movie')), 6)
+		self.assertEqual(len(imdb.filter_type(self.test_df, 'Movie')), 6)
 
 	def test_filter_genre(self):
-		self.assertEqual(len(filter_genre(self.test_df, 'Action')), 5)
+		self.assertEqual(len(imdb.filter_genre(self.test_df, 'Action')), 5)
 
 	def test_filter_year(self):
-		self.assertEqual(len(filter_year(self.test_df, 2018)), 2)
+		self.assertEqual(len(imdb.filter_year(self.test_df, 2018)), 2)
 
 	def test_filter_top10(self):
-		self.assertGreater(filter_top10(self.test_df)['weightedAverage'].min(), 1)
+		self.assertGreater(imdb.filter_top10(self.test_df)['weightedAverage'].min(), 1)
 
 	def test_filter_genre(self):
-		self.assertTrue(filter_selected(["tvSeries", "Movie"], "Movie"))
+		self.assertTrue(imdb.filter_selected(["tvSeries", "Movie"], "Movie"))
 
 
 
