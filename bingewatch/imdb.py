@@ -9,12 +9,12 @@ import pandas as pd
 import pickle
 
 
-def load_data():
-    imdb_df = pd.read_csv('data/processed/imdb_df.csv')
+def load_data(file_path):
+    imdb_df = pd.read_csv(file_path)
     return imdb_df
 
-def load_genres():
-    with open('data/processed/set_genres.pkl', 'rb') as f:
+def load_genres(file_path):
+    with open(file_path, 'rb') as f:
         genres_set = pickle.load(f)
     return list(genres_set)
 

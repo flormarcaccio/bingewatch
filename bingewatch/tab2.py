@@ -5,8 +5,11 @@ import pandas as pd
 import imdb
 from dash.dependencies import Input, Output
 
-df_imdb = imdb.load_data()
-genres = imdb.load_genres()
+
+IMDB_PATH = 'data/processed/imdb_df.csv'
+GENRES_PATH = 'data/processed/set_genres.pkl'
+df_imdb = imdb.load_data(IMDB_PATH)
+genres = imdb.load_genres(GENRES_PATH)
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
