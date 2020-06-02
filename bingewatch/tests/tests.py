@@ -35,20 +35,23 @@ class test_df(unittest.TestCase):
 		generated_df = hf.download_gz_file(imdb_url)
 		self.assertGreater(len(generated_df), 0)
 
-	def test_download_netflix_data(self):
-		pass
-
 	def test_parse_data(self):
-		pass
+		lst_data = hf.parse_data('bingewatch/data/test_files/netflix_test.txt')
+		self.assertEqual(len(lst_data), 10)
 
 	def test_get_recommended_movies(self):
-		pass
+		lst_data = hf.parse_data('bingewatch/data/test_files/netflix_test.txt')
+		df_nf_cols = ['movie_id', 'user_id', 'rating', 'rating_date']
+		df_netflix = pd.DataFrame(lst_data, columns=df_nf_cols)
+		self.assertEqual(len(hf.get_recommended_movies(df_netflix)), 3)
 
 	def test_format_movie_titles(self):
 		pass
 
-
 	def test_clean_imdb_data(self):
+		pass
+
+	def test_download_netflix_data(self):
 		pass
 
 
