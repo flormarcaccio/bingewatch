@@ -45,9 +45,6 @@ Option 2:
 This work is available under an MIT license, included in the repository.
 
 ### Software used
-Python version x
-
-Jupyter notebook version x
-
-Operating system version x
+Python version 3.7  
+Dash version xx
 
