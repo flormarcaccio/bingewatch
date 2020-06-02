@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.com/flormarcaccio/movie-recommendation-system.svg?branch=master)](https://travis-ci.com/flormarcaccio/movie-recommendation-system)
 
+[![Coverage Status](https://coveralls.io/repos/github/flormarcaccio/bingewatch/badge.svg?branch=master)](https://coveralls.io/github/flormarcaccio/bingewatch?branch=master)
+
+
 # [UW DATA 515A](http://uwseds.github.io/grading.html) - Software Engineering for Data Scientists
   
 ## Final Project - Movie Recommendation System
@@ -26,7 +29,7 @@ Finally, we provide a visualization tool for users to access our recommender sys
 <details>
 Option 1:
 
-- Manually download the dataset from the Kaggle website, and unzip the folder `netflix-prize-data` in the /movie-recommendation-system/data directory, at the same level as data_manager.py.
+- Manually download the dataset from the Kaggle website, and unzip the folder `netflix-prize-data` in the bingewatch/data directory, at the same level as data_manager.py.
 - Comment the line 18 from *data_manager.py*, so that it appear like:
 `#hf.download_netflix_data(NF_KAGGLE_USER, NF_DIRECTORY)`
   
