@@ -3,7 +3,6 @@ from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_core_components as dcc
 import tab1
-#import tab2_dummy as tab2
 import tab2
 import netflix as nmr
 import imdb
@@ -73,22 +72,14 @@ def update_figure(selected_movie):
     movie_list2 = nmr.userchoice_based_movie_recommendation(selected_movie)
     traces = []
     return {
-        'data': [{'x': movie_list2['Movie_Title'], 'y': movie_list2['%Match'], 'type': 'bar'}],
+        'data': [{'x': movie_list2['Movie Title'], 'y': movie_list2['Match%'], 'type': 'bar'}],
         'layout': dict(
             hovermode='closest',
             title='Top 10 Most Recommended',
-            yaxis={'title': '%Match'},
+            yaxis={'title': 'Match%'},
             margin={'l': 45, 'b': 150, 't': 40, 'r': 15}
         )
     }
-
-
-# Tab 2 callback
-@app.callback(Output('m', 'children'), [Input('movie_list_input2', 'value')])
-def update_table(selected_movie):
-    movie_list = nmr.userchoice_based_movie_recommendation(selected_movie)
-    movie_list_op = movie_list
-    return nmr.generate_table(movie_list_op)
 
 
 # Tab 2
