@@ -14,6 +14,15 @@ from scipy import sparse
 from sklearn.metrics.pairwise import cosine_similarity
 
 
+ZIP_EXT = '.zip'
+CSV_EXT = '.csv'
+ENC = 'iso8859_2'
+NF_TITLES_COLS = ['Sno', 'Year', 'Final_title', 'Display']
+TAB = '\t'
+NAS = ['\\N']
+TYPE_FILTER = ['movie', 'tvSeries']
+COL_SUBSET = ['tconst', 'titleType', 'primaryTitle', 'startYear', 'genres']
+
 def download_netflix_data(user, directory):
     """
     Download Netflix dataset from Kaggle and unzip directory.
@@ -22,7 +31,7 @@ def download_netflix_data(user, directory):
         directory = directory name that is downloaded.
     Returns: Directory unzipped in the current working directory.
     """
-    nf_file = directory+'.zip'
+    nf_file = directory+ZIP_EXT
     #os.system('kaggle datasets download -d netflix-inc/netflix-prize-data')
     os.system('kaggle datasets download -d '+user+'/'+directory)
     with zipfile.ZipFile(nf_file, 'r') as zip_ref:
@@ -81,7 +90,7 @@ def format_movie_titles(titles_path):
         titles_path = path to the movie_titles file from the Netflix data.
     Returns: A dataframe with the formatted data.
     """
-    with open(titles_path, 'r', encoding='iso8859_2') as file:
+    with open(titles_path, 'r', encoding=ENC) as file:
         data = file.readlines()
     final_list = []
     for line in data:
@@ -91,8 +100,7 @@ def format_movie_titles(titles_path):
         title = tmp[2].replace(",", "")
         new_item = [int(tmp[0]), tmp[1], title, title+' - '+tmp[1]]
         final_list.append(new_item)
-    movie_titles = pd.DataFrame(final_list,
-                                columns=['Sno', 'Year', 'Final_title', 'Display'])
+    movie_titles = pd.DataFrame(final_list, columns=NF_TITLES_COLS)
     return movie_titles
 
 
@@ -107,7 +115,7 @@ def download_gz_file(url):
     testfile = urllib.request.URLopener()
     testfile.retrieve(url, file_name)
     with gzip.open(file_name) as file_open:
-        df_data = pd.read_csv(file_open, sep='\t', na_values=['\\N'])
+        df_data = pd.read_csv(file_open, sep=TAB, na_values=NAS)
     os.remove(file_name)
     return df_data
 
@@ -123,9 +131,8 @@ def clean_imdb_data(df_titles, df_ratings):
                     from IMDb.
     Returns: Cleaned and merged dataframe.
     """
-    types_filter = df_titles.titleType.isin(['movie', 'tvSeries'])
-    col_filter = ['tconst', 'titleType', 'primaryTitle', 'startYear', 'genres']
-    df_titles = df_titles[types_filter][col_filter]
+    types_filter = df_titles.titleType.isin(TYPE_FILTER)
+    df_titles = df_titles[types_filter][COL_SUBSET]
     df_merged = df_titles.merge(df_ratings, how='left', left_on='tconst',
                                 right_on='tconst')
     df_merged['titleType'] = df_merged['titleType'].astype(str)
@@ -159,9 +166,9 @@ def save_file(obj, directory, file_name, ext):
         ext = Extension of the file to store.
     Returns: The saved file in the desired location.
     """
-    if ext == '.csv':
-        obj.to_csv(directory+file_name+ext, index=False)
+    if ext == CSV_EXT:
+        obj.to_csv(os.path.join(directory, file_name+ext), index=False)
     else:
-        with open(directory+file_name+ext, 'wb') as file_open:
+        with open(os.path.join(directory, file_name+ext), 'wb') as file_open:
             pickle.dump(obj, file_open, protocol=pickle.HIGHEST_PROTOCOL)
     print('Done storing file: ', file_name+ext)
