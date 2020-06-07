@@ -7,7 +7,7 @@ from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_core_components as dcc
 import choice_based_recommendation
-import tab2
+import filter_based_recommendation
 import netflix as nmr
 import imdb
 
@@ -63,9 +63,9 @@ app.layout = html.Div(style={'backgroundColor': COLORS['background']},
                           ),
                           dcc.Tabs(id="tabs-example", value='tab-1',
                                    children=[
-                                       dcc.Tab(label='Choice based Recommendation',
+                                       dcc.Tab(label='Choice Based Recommendation',
                                                value='tab-1'),
-                                       dcc.Tab(label='Genre/Time Based Recommendation',
+                                       dcc.Tab(label='Filter Based Recommendation',
                                                value='tab-2'),
                                    ]),
                           html.Div(id='tabs-content-display')
@@ -79,7 +79,7 @@ def render_content(tab):
     This function displays tabs based on user selection of tab
     """
     if tab == 'tab-2':
-        return tab2.tab2_layout
+        return filter_based_recommendation.tab2_layout
     return choice_based_recommendation.CHOICE_BASED_RECOMMENDATION_LAYOUT
 
 
