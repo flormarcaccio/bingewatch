@@ -19,6 +19,7 @@ sys.path.append('../data')
 CSV_EXT = '.csv'
 TAB = '\t'
 NAS = ['\\N']
+COMMA = ','
 
 PACKAGE_DIR = 'bingewatch'
 DATA_DIR = 'data'
@@ -35,6 +36,7 @@ NF_RATINGS_TEST = 'netflix_test.txt'
 NF_RATINGS_COLS = ['movie_id', 'user_id', 'rating', 'rating_date']
 MOVIE_TITLES_RAW_TEST = 'movie_titles_raw_test.csv'
 NF_MOVIE_TITLES_COLS = ['Sno', 'Year', 'Final_title', 'Display']
+NF_DICT_RECOMMENDATIONS = 'dict_recommendations.pkl'
 
 MOVIE_TITLES_TEST = 'movie_titles_test.csv'
 
@@ -204,7 +206,13 @@ class TestNetflix(unittest.TestCase):
     Test all the function in netflix.py.
     """
     def test_reading_movie_title_csv(self):
-        pass
+        """
+        Checks that the function reading_movie_title_csv(file) correctly loads
+        the desired file.
+        """
+        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        original_file = pd.read_csv(file_path)
+        self.assertEqual(len(nf.reading_movie_title_csv(file_path)), len(original_file))
 
     def test_get_options(self):
         """
@@ -216,10 +224,26 @@ class TestNetflix(unittest.TestCase):
         self.assertEqual(len(movies_df), len(dict_options))
 
     def test_get_movie_id(self):
-        pass
+        """
+        Checks that the correct Movie ID is retrieved from the dataframe.
+        For the test, we used the movie 'Ricky Martin: One Night Only - 1999',
+        with the corresponding ID 61.
+        """
+        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        movies_df = pd.read_csv(file_path)
+        title = 'Ricky Martin: One Night Only - 1999'
+        movie_id = nf.get_movie_id(movies_df, title)
+        self.assertEqual(movie_id, 61)
 
     def test_recommendation_for_movies(self):
-        pass
+        """
+        Checks that the function recommendation_for_movies(file) loads a non-empty
+        dictionary.
+        """
+        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, PROCESSED_DIR, NF_DICT_RECOMMENDATIONS)
+        dict_recommendations = nf.recommendation_for_movies(file_path)
+        self.assertTrue(len(dict_recommendations) > 0)
+
 
     def test_get_top10_movies(self):
         pass

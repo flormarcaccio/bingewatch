@@ -57,7 +57,7 @@ def recommendation_for_movies(path):
     Returns: Dictionary containing the list of movie ids recommended for all movie ids
     """
     dict_rec = {}
-    with open(url, 'rb') as filename:
+    with open(path, 'rb') as filename:
         dict_rec = pickle.load(filename)
     return dict_rec
 
