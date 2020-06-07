@@ -19,19 +19,19 @@ EXTERNAL_STYLESHEETS = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS)
 app.config.suppress_callback_exceptions = True
 
-colors = {
+COLORS = {
     'background': 'white',
     'background1': 'light blue',
     'text': 'black'
 }
 
-app.layout = html.Div(style={'backgroundColor': colors['background']},
+app.layout = html.Div(style={'backgroundColor': COLORS['background']},
                       children=[
                           html.H1(
                               children='Movie Recommendation: Get your next watch here!',
                               style={
                                   'textAlign': 'center',
-                                  'color': colors['text']
+                                  'color': COLORS['text']
                               }
                           ),
                           html.Div(
@@ -39,10 +39,10 @@ app.layout = html.Div(style={'backgroundColor': colors['background']},
                                        'either your favorite movie or your preferred genre '
                                        'or any time period. Tell us your choice & we will find'
                                        'the relevant movies and/or tv series '
-                                       'that will absolutely delight you! So, lets go!!\n\n',
+                                       'that will absolutely delight you! So, lets go!!\n \n',
                               style={
                                   'textAlign': 'center',
-                                  'color': colors['text']
+                                  'color': COLORS['text']
                               }
                           ),
                           dcc.Tabs(id="tabs-example", value='tab-1',
@@ -64,7 +64,7 @@ def render_content(tab):
     """
     if tab == 'tab-2':
         return tab2.tab2_layout
-    return choice_based_recommendation.choice_based_recommendation_layout
+    return choice_based_recommendation.CHOICE_BASED_RECOMMENDATION_LAYOUT
 
 
 ## Tab 1: choice_based_recommendation callback

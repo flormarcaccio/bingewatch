@@ -26,8 +26,6 @@ def get_options(movies_df):
     dict_list = []
     for i in movies_df:
         dict_list.append({'label': i, 'value': i})
-    print(type(dict_list))
-    dict_list.pop()
     return dict_list
 
 
