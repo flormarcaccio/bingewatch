@@ -9,6 +9,7 @@ import os
 import sys
 import unittest
 import pickle
+import random
 import pandas as pd
 import bingewatch.data.helper_functions as hf
 import bingewatch.imdb as imdb
@@ -244,12 +245,33 @@ class TestNetflix(unittest.TestCase):
         dict_recommendations = nf.recommendation_for_movies(file_path)
         self.assertTrue(len(dict_recommendations) > 0)
 
-
     def test_get_top10_movies(self):
-        pass
+        """
+        CHecks that the function get_top10_movies(df, list1, list2) returns the info
+        for the movie ids passed to the function.
+        """
+        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        movies_df = nf.reading_movie_title_csv(file_path)
+        movie_ids = list(range(1, 11))
+        movie_scores = []
+        for i in movie_ids:
+            movie_scores.append(random.uniform(0, 1))
+        movies_info = nf.get_top10_movies(movies_df, movie_ids, movie_scores)
+        self.assertEqual(len(movies_info), 10)
 
     def test_userchoice_based_movie_recommendation(self):
-        pass
+        """
+        CHecks that the function userchoice_based_movie_recommendation(title, df, dictionary)
+        returns the recommended movies for the selected title.
+        """
+        titles_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        recs_path = os.path.join(PACKAGE_DIR, DATA_DIR, PROCESSED_DIR, NF_DICT_RECOMMENDATIONS)
+        movies_df = nf.reading_movie_title_csv(titles_path)
+        dict_recommendations = nf.recommendation_for_movies(recs_path)
+        title = 'Ricky Martin: One Night Only - 1999'
+        movies_info = nf.userchoice_based_movie_recommendation(title, movies_df,
+                                                               dict_recommendations)
+        self.assertGreater(len(movies_info), 0)
 
     def test_generate_table(self):
         pass
