@@ -1,13 +1,11 @@
 """
 This module comprises of all the functions that are used in choice_based_recommendation.py file
 """
-import os
+
 import pickle
 import pandas as pd
 import dash_html_components as html
 
-DATA_DIR = 'data'
-PROCESSED_DIR = 'processed'
 
 def reading_movie_title_csv(path):
     """
@@ -79,17 +77,17 @@ def get_top10_movies(movies_df, recommended_movie_ids, recommended_movie_scores)
     return top10_movies
 
 
-def userchoice_based_movie_recommendation(selected_movie,MOVIES_DF, DICT_REC):
+def userchoice_based_movie_recommendation(selected_movie, movies_df, dict_rec):
     """
     This function recommends movies based a user selected movie id
     Args:
          selected_movie: movie-id input by user
     Returns: Dataframe containing top 10 recommended movies
     """
-    movie_id = get_movie_id(MOVIES_DF, selected_movie)
-    recommended_movie_ids = DICT_REC[movie_id][0][:10]
-    recommended_movie_scores = DICT_REC[movie_id][1][:10]
-    top10_movies = get_top10_movies(MOVIES_DF, recommended_movie_ids, recommended_movie_scores)
+    movie_id = get_movie_id(movies_df, selected_movie)
+    recommended_movie_ids = dict_rec[movie_id][0][:10]
+    recommended_movie_scores = dict_rec[movie_id][1][:10]
+    top10_movies = get_top10_movies(movies_df, recommended_movie_ids, recommended_movie_scores)
     return top10_movies
 
 
