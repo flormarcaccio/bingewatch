@@ -209,12 +209,19 @@ class TestNetflix(unittest.TestCase):
     def test_get_options(self):
         """
         Checks that the correct options list is generated in the get_options(lst) function.
-        COMMENTED UNTIL THE POP() LINE IS REMOVE FROM NETFLIX.PY
         """
-        #file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
-        #movies_df = pd.read_csv(file_path)
-        #dict_options = nf.get_options(movies_df['Display'].unique())
-        #self.assertEqual(len(movies_df), len(dict_options))
+        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        movies_df = pd.read_csv(file_path)
+        dict_options = nf.get_options(movies_df['Display'].unique())
+        self.assertEqual(len(movies_df), len(dict_options))
+
+    def test_get_movie_id(self):
+        pass
+
+    def test_recommendation_for_movies(self):
+        pass
+
+    def test_get_top10_movies(self):
         pass
 
     def test_userchoice_based_movie_recommendation(self):
