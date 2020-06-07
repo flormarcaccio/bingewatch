@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/flormarcaccio/movie-recommendation-system.svg?branch=master)](https://travis-ci.com/flormarcaccio/movie-recommendation-system) [![Coverage Status](https://coveralls.io/repos/github/flormarcaccio/bingewatch/badge.svg?branch=master&service=github)](https://coveralls.io/github/flormarcaccio/bingewatch?branch=master&service=github)
+[![Build Status](https://travis-ci.com/flormarcaccio/movie-recommendation-system.svg?branch=master)](https://travis-ci.com/flormarcaccio/movie-recommendation-system) [![Coverage Status](https://coveralls.io/repos/github/flormarcaccio/bingewatch/badge.svg?branch=master)](https://coveralls.io/github/flormarcaccio/bingewatch?branch=master)
 
 
 # [UW DATA 515A](http://uwseds.github.io/grading.html) - Software Engineering for Data Scientists
@@ -39,12 +39,16 @@ Option 2:
 
 - `data_manager.py` reads in the movie data from both Netflix and IMDB data sources, keeps only variables and observations of interest, calculates movie similarity scores for the Netflix data and weighted ratings for the IMDB data, and outputs processed files for use in the visualization tool.
 
-- `filename_here` produces the visualization tool which shows the top movie recommendations based on user input.
+- `app.py` produces the visualization tool which shows the top movie recommendations based on user input. The first tab displays the choice-based recommendation, while the second tab shows the genre/time-based recommendation. Note that `choice_based_recommendation.py` and `tab2.py` are imported by the main app script to create the layout for the two tabs.
 
 ### License
-This work is available under an MIT license, included in the repository.
+This work is available under an MIT license, included [in the repository](https://github.com/flormarcaccio/bingewatch/blob/master/LICENSE).
+
+### Code of Conduct
+Please see the included [code of conduct](https://github.com/flormarcaccio/bingewatch/blob/master/CODE_OF_CONDUCT.md) for the guidelines governing this project.
 
 ### Software used
 Python version 3.7  
-Dash version xx
+Dash version 1.12.0
 
+See [requirements.txt](https://github.com/flormarcaccio/bingewatch/blob/master/requirements.txt) for more details.

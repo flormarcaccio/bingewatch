@@ -9,7 +9,9 @@ import os
 import sys
 import unittest
 import pickle
+import random
 import pandas as pd
+import dash_html_components as html
 import bingewatch.data.helper_functions as hf
 import bingewatch.imdb as imdb
 import bingewatch.netflix as nf
@@ -19,6 +21,7 @@ sys.path.append('../data')
 CSV_EXT = '.csv'
 TAB = '\t'
 NAS = ['\\N']
+COMMA = ','
 
 PACKAGE_DIR = 'bingewatch'
 DATA_DIR = 'data'
@@ -35,6 +38,7 @@ NF_RATINGS_TEST = 'netflix_test.txt'
 NF_RATINGS_COLS = ['movie_id', 'user_id', 'rating', 'rating_date']
 MOVIE_TITLES_RAW_TEST = 'movie_titles_raw_test.csv'
 NF_MOVIE_TITLES_COLS = ['Sno', 'Year', 'Final_title', 'Display']
+NF_DICT_RECOMMENDATIONS = 'dict_recommendations.pkl'
 
 MOVIE_TITLES_TEST = 'movie_titles_test.csv'
 
@@ -203,8 +207,28 @@ class TestNetflix(unittest.TestCase):
     """
     Test all the function in netflix.py.
     """
+
+    test_df = pd.DataFrame({
+        'movies' : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
+        'titleType': ["Movie", "Movie", "Movie", "tvSeries", "tvSeries",
+                      "tvSeries", "tvSeries", "Movie", "tvSeries", "Movie",
+                      "Movie"],
+        'genres' : ["Action", "Comedy", "Comedy", "Romance",
+                    "Comedy,Romance", "Comedy,Action", "Romance",
+                    "Action,Comedy", "Action", "Action", "Romance"],
+        'startYear':[2020, 2019, 2018, 2020, 2016, 2015, 2012, 2017,
+                     2016, 2019, 2018],
+        'weightedAverage':[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]})
+
+
     def test_reading_movie_title_csv(self):
-        pass
+        """
+        Checks that the function reading_movie_title_csv(file) correctly loads
+        the desired file.
+        """
+        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        original_file = pd.read_csv(file_path)
+        self.assertEqual(len(nf.reading_movie_title_csv(file_path)), len(original_file))
 
     def test_get_options(self):
         """
@@ -216,19 +240,61 @@ class TestNetflix(unittest.TestCase):
         self.assertEqual(len(movies_df), len(dict_options))
 
     def test_get_movie_id(self):
-        pass
+        """
+        Checks that the correct Movie ID is retrieved from the dataframe.
+        For the test, we used the movie 'Ricky Martin: One Night Only - 1999',
+        with the corresponding ID 61.
+        """
+        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        movies_df = pd.read_csv(file_path)
+        title = 'Ricky Martin: One Night Only - 1999'
+        movie_id = nf.get_movie_id(movies_df, title)
+        self.assertEqual(movie_id, 61)
 
     def test_recommendation_for_movies(self):
-        pass
+        """
+        Checks that the function recommendation_for_movies(file) loads a non-empty
+        dictionary.
+        """
+        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, PROCESSED_DIR, NF_DICT_RECOMMENDATIONS)
+        dict_recommendations = nf.recommendation_for_movies(file_path)
+        self.assertTrue(len(dict_recommendations) > 0)
 
     def test_get_top10_movies(self):
-        pass
+        """
+        CHecks that the function get_top10_movies(df, list1, list2) returns the info
+        for the movie ids passed to the function.
+        """
+        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        movies_df = nf.reading_movie_title_csv(file_path)
+        movie_ids = list(range(1, 11))
+        movie_scores = []
+        for i in movie_ids:
+            movie_scores.append(random.uniform(0, 1))
+        movies_info = nf.get_top10_movies(movies_df, movie_ids, movie_scores)
+        self.assertEqual(len(movies_info), 10)
 
     def test_userchoice_based_movie_recommendation(self):
-        pass
+        """
+        CHecks that the function userchoice_based_movie_recommendation(title, df, dictionary)
+        returns the recommended movies for the selected title.
+        """
+        titles_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        recs_path = os.path.join(PACKAGE_DIR, DATA_DIR, PROCESSED_DIR, NF_DICT_RECOMMENDATIONS)
+        movies_df = nf.reading_movie_title_csv(titles_path)
+        dict_recommendations = nf.recommendation_for_movies(recs_path)
+        title = 'Ricky Martin: One Night Only - 1999'
+        movies_info = nf.userchoice_based_movie_recommendation(title, movies_df,
+                                                               dict_recommendations)
+        self.assertGreater(len(movies_info), 0)
 
     def test_generate_table(self):
-        pass
+        """
+        Checks that the function generate_table(df, int) returns an html Table.
+        """
+        max_rows = 5
+        table_output = nf.generate_table(self.test_df, max_rows)
+        self.assertTrue(isinstance(table_output, html.Table))
 
 
 
