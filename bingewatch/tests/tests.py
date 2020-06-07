@@ -11,6 +11,7 @@ import unittest
 import pickle
 import random
 import pandas as pd
+import dash_html_components as html
 import bingewatch.data.helper_functions as hf
 import bingewatch.imdb as imdb
 import bingewatch.netflix as nf
@@ -206,6 +207,20 @@ class TestNetflix(unittest.TestCase):
     """
     Test all the function in netflix.py.
     """
+
+    test_df = pd.DataFrame({
+        'movies' : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
+        'titleType': ["Movie", "Movie", "Movie", "tvSeries", "tvSeries",
+                      "tvSeries", "tvSeries", "Movie", "tvSeries", "Movie",
+                      "Movie"],
+        'genres' : ["Action", "Comedy", "Comedy", "Romance",
+                    "Comedy,Romance", "Comedy,Action", "Romance",
+                    "Action,Comedy", "Action", "Action", "Romance"],
+        'startYear':[2020, 2019, 2018, 2020, 2016, 2015, 2012, 2017,
+                     2016, 2019, 2018],
+        'weightedAverage':[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]})
+
+
     def test_reading_movie_title_csv(self):
         """
         Checks that the function reading_movie_title_csv(file) correctly loads
@@ -274,7 +289,12 @@ class TestNetflix(unittest.TestCase):
         self.assertGreater(len(movies_info), 0)
 
     def test_generate_table(self):
-        pass
+        """
+        Checks that the function generate_table(df, int) returns an html Table.
+        """
+        max_rows = 5
+        table_output = nf.generate_table(self.test_df, max_rows)
+        self.assertTrue(isinstance(table_output, html.Table))
 
 
 
