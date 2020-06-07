@@ -12,6 +12,7 @@ import pickle
 import pandas as pd
 import bingewatch.data.helper_functions as hf
 import bingewatch.imdb as imdb
+import bingewatch.netflix as nf
 sys.path.append('../data')
 
 
@@ -32,8 +33,10 @@ IMDB_MERGED_COLS = ['tconst', 'titleType', 'primaryTitle', 'startYear',
 GENRES_TEST = 'set_genres_test.pkl'
 NF_RATINGS_TEST = 'netflix_test.txt'
 NF_RATINGS_COLS = ['movie_id', 'user_id', 'rating', 'rating_date']
-MOVIE_TITLES_TEST = 'movie_titles_test.csv'
+MOVIE_TITLES_RAW_TEST = 'movie_titles_raw_test.csv'
 NF_MOVIE_TITLES_COLS = ['Sno', 'Year', 'Final_title', 'Display']
+
+MOVIE_TITLES_TEST = 'movie_titles_test.csv'
 
 TEST_FILE_OUT = 'test_file'
 
@@ -99,7 +102,7 @@ class TestHelperFunctions(unittest.TestCase):
         test file and adds the necessary columns. This function checks
         that the columns match with the desired output.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_RAW_TEST)
         movie_titles = hf.format_movie_titles(file_path)
         print(movie_titles)
         self.assertEqual(list(movie_titles.columns), NF_MOVIE_TITLES_COLS)
@@ -204,6 +207,14 @@ class TestNetflix(unittest.TestCase):
         pass
 
     def test_get_options(self):
+        """
+        Checks that the correct options list is generated in the get_options(lst) function.
+        COMMENTED UNTIL THE POP() LINE IS REMOVE FROM NETFLIX.PY
+        """
+        #file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        #movies_df = pd.read_csv(file_path)
+        #dict_options = nf.get_options(movies_df['Display'].unique())
+        #self.assertEqual(len(movies_df), len(dict_options))
         pass
 
     def test_userchoice_based_movie_recommendation(self):
