@@ -50,4 +50,5 @@ Please see the included [code of conduct](https://github.com/flormarcaccio/binge
 ### Software used
 Python version 3.7  
 Dash version 1.12.0
+
 See [requirements.txt](https://github.com/flormarcaccio/bingewatch/blob/master/requirements.txt) for more details.
