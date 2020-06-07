@@ -15,20 +15,20 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 ## Reading movie_title.csv for movie list dropdown
 movies_df = nmr.reading_movie_title_csv()
 
-colors = {
+COLORS = {
     'background': 'white',
     'background1': 'light blue',
     'text': 'black'
 }
 
 ########################################### Tab 1 Layout ################################################################################
-tab1_layout = html.Div(style={'backgroundColor': colors['background']}, children=[
+choice_based_recommendation_layout = html.Div(style={'backgroundColor': COLORS['background']}, children=[
     html.Div(className='div-user-controls',
              children=[
                  html.H4(children='Enter a movie you have loved watching: ',
                          style={
                              'textAlign': 'left',
-                             'color': colors['text']
+                             'color': COLORS['text']
                          }),
                  html.Div(
                      className='div-for-dropdown-and-table',
@@ -56,4 +56,4 @@ tab1_layout = html.Div(style={'backgroundColor': colors['background']}, children
              )
 
 ]
-)
+                       )
