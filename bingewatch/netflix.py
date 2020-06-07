@@ -1,17 +1,20 @@
 """
 This module comprises of all the functions that are used in choice_based_recommendation.py file
 """
+import os
 import pickle
 import pandas as pd
 import dash_html_components as html
 
+DATA_DIR = 'data'
+PROCESSED_DIR = 'processed'
 
-def reading_movie_title_csv():
+def reading_movie_title_csv(path):
     """
     It reads the csv file having list of all the movies either watched or recommended
     Returns: Dataframe containing movie details: movie_id, year of release, title, display
     """
-    movies_df = pd.read_csv("data/processed/movie_titles.csv", sep=",")
+    movies_df = pd.read_csv(path, sep=",")
     movies_df.sort_values(by='Final_title', ascending=True, inplace=True)
     return movies_df
 
@@ -45,14 +48,16 @@ def get_movie_id(movies_df, selected_movie):
     return movie_id
 
 
-def recommendation_for_movies():
+def recommendation_for_movies(path):
     """
     It reads the dictionary containing the list of recommended movie ids for
     each of the movies present in our dataset
+    Args:
+        path: path where file is stored
     Returns: Dictionary containing the list of movie ids recommended for all movie ids
     """
     dict_rec = {}
-    with open("data/processed/dict_recommendations.pkl", 'rb') as filename:
+    with open(url, 'rb') as filename:
         dict_rec = pickle.load(filename)
     return dict_rec
 
@@ -74,19 +79,17 @@ def get_top10_movies(movies_df, recommended_movie_ids, recommended_movie_scores)
     return top10_movies
 
 
-def userchoice_based_movie_recommendation(selected_movie):
+def userchoice_based_movie_recommendation(selected_movie,MOVIES_DF, DICT_REC):
     """
     This function recommends movies based a user selected movie id
     Args:
          selected_movie: movie-id input by user
     Returns: Dataframe containing top 10 recommended movies
     """
-    movies_df = reading_movie_title_csv()  # Reading List of all movies
-    movie_id = get_movie_id(movies_df, selected_movie)
-    dict_rec = recommendation_for_movies()
-    recommended_movie_ids = dict_rec[movie_id][0][:10]
-    recommended_movie_scores = dict_rec[movie_id][1][:10]
-    top10_movies = get_top10_movies(movies_df, recommended_movie_ids, recommended_movie_scores)
+    movie_id = get_movie_id(MOVIES_DF, selected_movie)
+    recommended_movie_ids = DICT_REC[movie_id][0][:10]
+    recommended_movie_scores = DICT_REC[movie_id][1][:10]
+    top10_movies = get_top10_movies(MOVIES_DF, recommended_movie_ids, recommended_movie_scores)
     return top10_movies
 
 

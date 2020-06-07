@@ -1,6 +1,7 @@
 """
 This is the main file that hosts the web-app. It has dash app initialization and callouts.
 """
+import os
 import dash
 from dash.dependencies import Input, Output
 import dash_html_components as html
@@ -10,12 +11,24 @@ import tab2
 import netflix as nmr
 import imdb
 
-IMDB_PATH = 'data/processed/imdb_df.csv'
-GENRES_PATH = 'data/processed/set_genres.pkl'
+# Loading the necessary files: movies_df, imdf_df, dict_rec
+DATA_DIR = 'data'
+PROCESSED_DIR = 'processed'
+MOVIES_FILE = 'movie_titles.csv'
+IMDB_FILE = 'imdb_df.csv'
+GENRE_FILE = 'set_genres.pk'
+DICT_REC = 'dict_recommendations.pkl'
+
+MOVIES_FILE_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, MOVIES_FILE)
+IMDB_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, IMDB_FILE)
+GENRES_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, GENRE_FILE)
+DICT_REC_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, DICT_REC)
+
 IMDB_DF = imdb.load_data(IMDB_PATH)
+MOVIES_DF = nmr.reading_movie_title_csv(MOVIES_FILE_PATH)
+DICT_REC = nmr.recommendation_for_movies(DICT_REC_PATH)
 
 EXTERNAL_STYLESHEETS = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
 app = dash.Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS)
 app.config.suppress_callback_exceptions = True
 
@@ -76,7 +89,7 @@ def update_table(selected_movie):
         selected_movie: user input of movie title
     Returns: Html table of 10 movies
     """
-    movie_list = nmr.userchoice_based_movie_recommendation(selected_movie)
+    movie_list = nmr.userchoice_based_movie_recommendation(selected_movie, MOVIES_DF, DICT_REC)
     return nmr.generate_table(movie_list)
 
 
@@ -88,7 +101,7 @@ def update_figure(selected_movie):
         selected_movie: user input of movie title
     Returns: Bar plot of movies & match %age
     """
-    movie_list2 = nmr.userchoice_based_movie_recommendation(selected_movie)
+    movie_list2 = nmr.userchoice_based_movie_recommendation(selected_movie, MOVIES_DF, DICT_REC)
     return {
         'data': [{'x': movie_list2['Movie Title'], 'y': movie_list2['Match%'], 'type': 'bar'}],
         'layout': dict(

@@ -1,12 +1,17 @@
 """ This is dash layout file for Personal Choice based Recommendation.
     It is being called in app.py
 """
+import os
 import dash_html_components as html
 import dash_core_components as dcc
 import netflix as nmr
 
-## Reading movie_title.csv for movie list dropdown
-MOVIES_DF = nmr.reading_movie_title_csv()
+DATA_DIR = 'data'
+PROCESSED_DIR = 'processed'
+MOVIES_FILE = 'movie_titles.csv'
+MOVIES_FILE_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, MOVIES_FILE)
+MOVIES_DF = nmr.reading_movie_title_csv(MOVIES_FILE_PATH)
+
 
 COLORS = {
     'background': 'white',
