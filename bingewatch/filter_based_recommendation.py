@@ -13,13 +13,13 @@ IMDB_FILE = 'imdb_df.csv'
 GENRES_FILE = 'set_genres.pkl'
 IMDB_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, IMDB_FILE)
 GENRES_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, GENRES_FILE)
-df_imdb = imdb.load_data(IMDB_PATH)
-genres = imdb.load_genres(GENRES_PATH)
+DF_IMDB = imdb.load_data(IMDB_PATH)
+GENRES = imdb.load_genres(GENRES_PATH)
 
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+EXTERNAL_STYLESHEETS = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-tab2_layout = html.Div([
+TAB2_LAYOUT = html.Div([
     html.Div([
         html.Label('Filter by:'),
         dcc.Checklist(
@@ -33,9 +33,9 @@ tab2_layout = html.Div([
         html.Label('Year:'),
         dcc.Slider(
             id='year-slider',
-            min=int(df_imdb['startYear'].min()),
-            max=int(df_imdb['startYear'].max()),
-            value=int(df_imdb['startYear'].max()),
+            min=int(DF_IMDB['startYear'].min()),
+            max=int(DF_IMDB['startYear'].max()),
+            value=int(DF_IMDB['startYear'].max()),
             included=False,
             updatemode='drag',
             tooltip={'always_visible': True})],
@@ -48,7 +48,7 @@ tab2_layout = html.Div([
             html.Label('Select the genre you would like to see:'),
             dcc.Dropdown(
                 id='genre-dropdown',
-                options=[{'label': i, 'value': i} for i in genres],
+                options=[{'label': i, 'value': i} for i in GENRES],
                 placeholder='Select Genre',)],
                  style={'width': '48%',
                         'margin-bottom': '50px',

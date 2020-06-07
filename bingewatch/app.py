@@ -79,7 +79,7 @@ def render_content(tab):
     This function displays tabs based on user selection of tab
     """
     if tab == 'tab-2':
-        return filter_based_recommendation.tab2_layout
+        return filter_based_recommendation.TAB2_LAYOUT
     return choice_based_recommendation.CHOICE_BASED_RECOMMENDATION_LAYOUT
 
 
