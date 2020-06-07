@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/flormarcaccio/movie-recommendation-system.svg?branch=master)](https://travis-ci.com/flormarcaccio/movie-recommendation-system) [![Coverage Status](https://coveralls.io/repos/github/flormarcaccio/bingewatch/badge.svg?branch=master&service=github)](https://coveralls.io/github/flormarcaccio/bingewatch?branch=master&service=github)
+[![Build Status](https://travis-ci.com/flormarcaccio/movie-recommendation-system.svg?branch=master)](https://travis-ci.com/flormarcaccio/movie-recommendation-system) [![Coverage Status](https://coveralls.io/repos/github/flormarcaccio/bingewatch/badge.svg?branch=master)](https://coveralls.io/github/flormarcaccio/bingewatch?branch=master)
 
 
 # [UW DATA 515A](http://uwseds.github.io/grading.html) - Software Engineering for Data Scientists
