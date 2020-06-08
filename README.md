@@ -19,7 +19,8 @@ The deployed dashboard can be found in: [https://seds-bingewatch.herokuapp.com/]
   
 The project can also be run locally:  
 ```
-git clone https://github.com/flormarcaccio/bingewatch.git  
+git clone https://github.com/flormarcaccio/bingewatch.git
+pip install -r requirements.txt
 python run.py
 ```
 
@@ -51,6 +52,9 @@ Option 2:
 ## Data Visualization
 
 - `app.py` produces the visualization tool which shows the top movie recommendations based on user input. The first tab displays the choice-based recommendation, while the second tab shows the filter-based recommendation. Note that `choice_based_recommendation.py` and `filter_based_recommendation.py` are imported by the main app script to create the layout for the two tabs.
+
+## Examples
+We provide [examples](https://github.com/flormarcaccio/bingewatch/blob/master/examples/README.md) that show how to interact with the recommendation tool.
 
 ## License
 This work is available under an MIT license, included [in the repository](https://github.com/flormarcaccio/bingewatch/blob/master/LICENSE).
