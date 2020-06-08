@@ -16,7 +16,8 @@ After running this code, copy and paste the web address output on the terminal i
 
 Our interface consists of two tabs: the first displays a choice-based recommendation, while the second tab shows a filter-based recommendation. 
 
-(picture of tab 1 here) (picture of tab 2 here)
+![](https://github.com/flormarcaccio/bingewatch/blob/master/examples/tab_1.png)
+![](https://github.com/flormarcaccio/bingewatch/blob/master/examples/tab_2.png)
 
 ### Use cases 
 
@@ -32,7 +33,7 @@ The second tab also allows users to select combinations of years and genres, as 
 
 Within the second tab, users can filter on whether they want to view movies or TV shows, which genres they are interested in, and which year the movie or show should be from.
 
-(picture of filters here)
+![](https://github.com/flormarcaccio/bingewatch/blob/master/examples/filters.png)
 
 ## Examples
 
@@ -44,7 +45,7 @@ They can obtain recommendations using our tool by following these steps:
 3. Select it in the alphabetized list within the drop-down
 4. Recommendations will be shown!
 
-(example 1 here)
+![](https://github.com/flormarcaccio/bingewatch/blob/master/examples/gif_case1.gif)
 
 ### Case 2
 Assume a user wants to get caught up on last year's hottest movies.
@@ -54,7 +55,7 @@ They can obtain recommendations using our tool by following these steps:
 3. Use the year slider to select the appropriate year, in this case 2019
 4. Recommendations will be shown!
 
-(example 2 here)
+![](https://github.com/flormarcaccio/bingewatch/blob/master/examples/gif_case2.gif)
 
 ### Case 3
 Assume a user is interested in binge-watching the most popular science fiction shows.
@@ -65,7 +66,7 @@ They can obtain recommendations using our tool by following these steps:
 4. Use the drop-down to find and click on the genre name "Sci-Fi"
 5. Recommendations will be shown!
 
-(example 3 here)
+![](https://github.com/flormarcaccio/bingewatch/blob/master/examples/gif_case3.gif)
 
 ### Case 4
 Assume a user is interested in the top comedy movies from the year 2010.
@@ -75,4 +76,4 @@ They can obtain recommendations using our tool by following these steps:
 3. Use the drop-down to find and click on the genre name "Comedy"
 4. Recommendations will be shown!
 
-(example 4 here)
+![](https://github.com/flormarcaccio/bingewatch/blob/master/examples/gif_case4.gif)
