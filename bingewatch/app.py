@@ -6,8 +6,6 @@ import dash
 from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_core_components as dcc
-from bingewatch import choice_based_recommendation
-from bingewatch import filter_based_recommendation
 from bingewatch import netflix as nmr
 from bingewatch import imdb
 
@@ -16,7 +14,7 @@ DATA_DIR = 'bingewatch/data'
 PROCESSED_DIR = 'processed'
 MOVIES_FILE = 'movie_titles.csv'
 IMDB_FILE = 'imdb_df.csv'
-GENRE_FILE = 'set_genres.pk'
+GENRE_FILE = 'set_genres.pkl'
 DICT_REC = 'dict_recommendations.pkl'
 
 MOVIES_FILE_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, MOVIES_FILE)
@@ -26,12 +24,12 @@ DICT_REC_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, DICT_REC)
 
 IMDB_DF = imdb.load_data(IMDB_PATH)
 MOVIES_DF = nmr.reading_movie_title_csv(MOVIES_FILE_PATH)
+GENRES = imdb.load_genres(GENRES_PATH)
 DICT_REC = nmr.recommendation_for_movies(DICT_REC_PATH)
 
 EXTERNAL_STYLESHEETS = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS)
 app.config.suppress_callback_exceptions = True
-
 
 COLORS = {
     'background': 'white',
@@ -68,6 +66,9 @@ app.layout = html.Div(style={'backgroundColor': COLORS['background']},
                                    ]),
                           html.Div(id='tabs-content-display')
                       ])
+
+from bingewatch import filter_based_recommendation
+from bingewatch import choice_based_recommendation
 
 
 @app.callback(Output('tabs-content-display', 'children'),

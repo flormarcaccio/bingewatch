@@ -2,19 +2,10 @@
 This module contains the layout for the second tab of the visualization.
 It is being called by main.py.
 """
-import os
 import dash_html_components as html
 import dash_core_components as dcc
-from bingewatch import imdb
-
-DATA_DIR = 'bingewatch/data'
-PROCESSED_DIR = 'processed'
-IMDB_FILE = 'imdb_df.csv'
-GENRES_FILE = 'set_genres.pkl'
-IMDB_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, IMDB_FILE)
-GENRES_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, GENRES_FILE)
-DF_IMDB = imdb.load_data(IMDB_PATH)
-GENRES = imdb.load_genres(GENRES_PATH)
+from bingewatch.app import IMDB_DF
+from bingewatch.app import GENRES
 
 
 EXTERNAL_STYLESHEETS = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -33,9 +24,9 @@ TAB2_LAYOUT = html.Div([
         html.Label('Year:'),
         dcc.Slider(
             id='year-slider',
-            min=int(DF_IMDB['startYear'].min()),
-            max=int(DF_IMDB['startYear'].max()),
-            value=int(DF_IMDB['startYear'].max()),
+            min=int(IMDB_DF['startYear'].min()),
+            max=int(IMDB_DF['startYear'].max()),
+            value=int(IMDB_DF['startYear'].max()),
             included=False,
             updatemode='drag',
             tooltip={'always_visible': True})],
