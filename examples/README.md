@@ -2,15 +2,23 @@ This file demonstrates how users can interact with our movie recommendation visu
 
 ## Accessing the tool
 
-The visualization tool is hosted on Heroku, a cloud platform which allows applications to be accessed through a web browser.
+The visualization tool is hosted on Heroku, a cloud platform which allows applications to be accessed through a web browser. Users can access our tool by simply clicking the following link: [https://seds-bingewatch.herokuapp.com/](https://seds-bingewatch.herokuapp.com/). 
 
-Users can access our tool by simply clicking the following link: (link here).
+Alternately, the project can be run locally by users with the following code:  
+```
+git clone https://github.com/flormarcaccio/bingewatch.git
+pip install -r requirements.txt
+python run.py
+```
+After running this code, copy and paste the web address output on the terminal into a web browser to view the visualization.
 
 ## Getting started
 
-Our interface consists of two tabs: the first displays the choice-based recommendation, while the second tab shows the genre/time-based recommendation. 
+Our interface consists of two tabs: the first displays a choice-based recommendation, while the second tab shows a filter-based recommendation. 
 
 (picture of tab 1 here) (picture of tab 2 here)
+
+### Use cases 
 
 In the first use case, if a user is interested in a movie similar to another movie they already watched, they can type in or select a liked movie and receive a list of top 10 movies similarly liked by others. This functionality is available through the first tab of our visualization.
 
@@ -29,35 +37,42 @@ Within the second tab, users can filter on whether they want to view movies or T
 ## Examples
 
 ### Case 1
-Assume a user's favorite movie is (movie here), and they want to see movies that are similar to it.
+Assume a user's favorite movie is Fight Club, and they want to see movies that are similar to it.
 They can obtain recommendations using our tool by following these steps:
-1. Select tab 1
+1. Select tab 1, "Choice Based Recommendation"
 2. Click on the drop-down and begin typing the name of the movie
 3. Select it in the alphabetized list within the drop-down
 4. Recommendations will be shown!
 
+(example 1 here)
 
 ### Case 2
 Assume a user wants to get caught up on last year's hottest movies.
 They can obtain recommendations using our tool by following these steps:
-1. Select tab 2
-2. Check the box for "years"
-3. Use the year slider to select the appropriate year
+1. Select tab 2, "Filter Based Recommendation"
+2. Deselect the checkbox for "Genre", leaving only the box for "Year" checked
+3. Use the year slider to select the appropriate year, in this case 2019
 4. Recommendations will be shown!
+
+(example 2 here)
 
 ### Case 3
-Assume a user is interested in binge-watching the most popular sci-fi shows.
+Assume a user is interested in binge-watching the most popular science fiction shows.
 They can obtain recommendations using our tool by following these steps:
-1. Select tab 2
-2. Check the box for "genres"
-3. Use the drop-down to find and click on the genre name "Science Fiction"
-4. Recommendations will be shown!
+1. Select tab 2, "Filter Based Recommendation"
+2. Deselect the checkbox for "Year", leaving only the box for "Genre" checked
+3. Change the type of content shown from "Movie" to "TV Series" using the bubble selector
+4. Use the drop-down to find and click on the genre name "Sci-Fi"
+5. Recommendations will be shown!
+
+(example 3 here)
 
 ### Case 4
-Assume a user is interested in the top romantic comedies from the year 2010.
+Assume a user is interested in the top comedy movies from the year 2010.
 They can obtain recommendations using our tool by following these steps:
-1. Select tab 2
-2. Check the box for "genres", and also click the box for "years"
-3. Use the year slider to select the year 2010
-4. Use the drop-down to find and click on the genre name "Romantic Comedy"
-5. Recommendations will be shown!
+1. Select tab 2, "Filter Based Recommendation"
+2. Use the year slider to select the year 2010
+3. Use the drop-down to find and click on the genre name "Comedy"
+4. Recommendations will be shown!
+
+(example 4 here)
