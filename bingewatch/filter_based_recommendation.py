@@ -5,9 +5,9 @@ It is being called by main.py.
 import os
 import dash_html_components as html
 import dash_core_components as dcc
-import imdb
+from bingewatch import imdb
 
-DATA_DIR = 'data'
+DATA_DIR = 'bingewatch/data'
 PROCESSED_DIR = 'processed'
 IMDB_FILE = 'imdb_df.csv'
 GENRES_FILE = 'set_genres.pkl'

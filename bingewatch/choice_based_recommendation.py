@@ -4,9 +4,9 @@
 import os
 import dash_html_components as html
 import dash_core_components as dcc
-import netflix as nmr
+from bingewatch  import netflix as nmr
 
-DATA_DIR = 'data'
+DATA_DIR = 'bingewatch/data'
 PROCESSED_DIR = 'processed'
 MOVIES_FILE = 'movie_titles.csv'
 MOVIES_FILE_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, MOVIES_FILE)

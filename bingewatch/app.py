@@ -6,13 +6,13 @@ import dash
 from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_core_components as dcc
-import choice_based_recommendation
-import filter_based_recommendation
-import netflix as nmr
-import imdb
+from bingewatch import choice_based_recommendation
+from bingewatch import filter_based_recommendation
+from bingewatch import netflix as nmr
+from bingewatch import imdb
 
 # Loading the necessary files: movies_df, imdf_df, dict_rec
-DATA_DIR = 'data'
+DATA_DIR = 'bingewatch/data'
 PROCESSED_DIR = 'processed'
 MOVIES_FILE = 'movie_titles.csv'
 IMDB_FILE = 'imdb_df.csv'
