@@ -125,7 +125,13 @@ class TestHelperFunctions(unittest.TestCase):
         self.assertEqual(list(merged_df.columns), IMDB_MERGED_COLS)
 
     def test_download_netflix_data(self):
-        pass
+        """
+        Checks that the function download_netflix_data(user, directory)
+        correctly downloads the netflix dataset from Kaggle.
+        """
+        hf.download_netflix_data('netflix-inc', 'netflix-prize-data')
+        self.assertTrue(os.path.exists('./netflix-prize-data'))
+        os.system("rm -r netflix-prize-data")
 
 
 
