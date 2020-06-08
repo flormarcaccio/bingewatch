@@ -32,8 +32,6 @@ EXTERNAL_STYLESHEETS = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS)
 app.config.suppress_callback_exceptions = True
 
-#for heroku, might delete later if it doesn't work
-server = app.server
 
 COLORS = {
     'background': 'white',
@@ -147,7 +145,3 @@ def update_figure_tab2(selected_filters, selected_year, selected_type, selected_
             title='Top 10 Most Popular',
             yaxis={'title': 'Weighted Average'})
     }
-
-
-if __name__ == '__main__':
-    app.run_server(debug=True)

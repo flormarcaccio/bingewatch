@@ -1,1 +1,1 @@
-web: gunicorn bingewatch.app:server
+web: gunicorn run:server
