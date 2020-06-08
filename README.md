@@ -20,6 +20,7 @@ The deployed dashboard can be found in: [https://seds-bingewatch.herokuapp.com/]
 The project can also be run locally:  
 ```
 git clone https://github.com/flormarcaccio/bingewatch.git
+cd bingewatch
 pip install -r requirements.txt
 python run.py
 ```
