@@ -9,3 +9,4 @@ dash-html-components==1.0.3
 kaggle==1.5.6
 scikit-learn
 gunicorn
+pathlib

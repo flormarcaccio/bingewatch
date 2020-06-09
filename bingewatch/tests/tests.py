@@ -10,23 +10,27 @@ import sys
 import unittest
 import pickle
 import random
+from pathlib import Path
 import pandas as pd
 import dash_html_components as html
 import bingewatch.data.helper_functions as hf
 import bingewatch.imdb as imdb
 import bingewatch.netflix as nf
-
 sys.path.append('../data')
+
 
 CSV_EXT = '.csv'
 TAB = '\t'
 NAS = ['\\N']
 COMMA = ','
 
-PACKAGE_DIR = 'bingewatch'
 DATA_DIR = 'data'
 TEST_DATA_DIR = 'test_files'
 PROCESSED_DIR = 'processed'
+PATH_TO_TESTS = Path(__file__).parent
+PATH_TO_DATA_TESTS = os.path.join(PATH_TO_TESTS.parent, DATA_DIR, TEST_DATA_DIR)
+PATH_TO_DATA_PROC = os.path.join(PATH_TO_TESTS.parent, DATA_DIR, PROCESSED_DIR)
+
 
 IMDB_TEST = 'imdb_df_test.csv'
 IMDB_TITLES_TEST = 'imdb_titles_test.tsv'
@@ -84,7 +88,7 @@ class TestHelperFunctions(unittest.TestCase):
         Checks that the function parse_data(file) parses the data from the file
         and outputs a list with the 10 ratings found in the test file.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, NF_RATINGS_TEST)
+        file_path = os.path.join(PATH_TO_DATA_TESTS, NF_RATINGS_TEST)
         lst_data = hf.parse_data(file_path)
         self.assertEqual(len(lst_data), 10)
 
@@ -93,7 +97,7 @@ class TestHelperFunctions(unittest.TestCase):
         Checks that the function get_recommended_movies(df) outputs a dictionary with
         recommendations for the 3 movies in the test file.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, NF_RATINGS_TEST)
+        file_path = os.path.join(PATH_TO_DATA_TESTS, NF_RATINGS_TEST)
         lst_data = hf.parse_data(file_path)
         df_netflix = pd.DataFrame(lst_data, columns=NF_RATINGS_COLS)
         self.assertEqual(len(hf.get_recommended_movies(df_netflix)), 3)
@@ -104,7 +108,7 @@ class TestHelperFunctions(unittest.TestCase):
         test file and adds the necessary columns. This function checks
         that the columns match with the desired output.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_RAW_TEST)
+        file_path = os.path.join(PATH_TO_DATA_TESTS, MOVIE_TITLES_RAW_TEST)
         movie_titles = hf.format_movie_titles(file_path)
         print(movie_titles)
         self.assertEqual(list(movie_titles.columns), NF_MOVIE_TITLES_COLS)
@@ -115,8 +119,8 @@ class TestHelperFunctions(unittest.TestCase):
         test dataframes and adds calculates the necessary columns. This function checks
         that the columns match with the desired output.
         """
-        titles_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, IMDB_TITLES_TEST)
-        ratings_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, IMDB_RATINGS_TEST)
+        titles_path = os.path.join(PATH_TO_DATA_TESTS, IMDB_TITLES_TEST)
+        ratings_path = os.path.join(PATH_TO_DATA_TESTS, IMDB_RATINGS_TEST)
         titles_df = pd.read_csv(titles_path, sep=TAB, na_values=NAS)
         ratings_df = pd.read_csv(ratings_path, sep=TAB, na_values=NAS)
         merged_df = hf.clean_imdb_data(titles_df, ratings_df)
@@ -155,7 +159,7 @@ class TestImdb(unittest.TestCase):
         """
         Checks that the function load_data(file) properly loads the desired file.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, IMDB_TEST)
+        file_path = os.path.join(PATH_TO_DATA_TESTS, IMDB_TEST)
         original_file = pd.read_csv(file_path)
         self.assertEqual(len(imdb.load_data(file_path)), len(original_file))
 
@@ -163,7 +167,7 @@ class TestImdb(unittest.TestCase):
         """
         Checks that the function load_genres(file) properly loads the list of genres.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, GENRES_TEST)
+        file_path = os.path.join(PATH_TO_DATA_TESTS, GENRES_TEST)
         with open(file_path, 'rb') as file:
             original_file = pickle.load(file)
         self.assertEqual(imdb.load_genres(file_path), list(original_file))
@@ -228,7 +232,7 @@ class TestNetflix(unittest.TestCase):
         Checks that the function reading_movie_title_csv(file) correctly loads
         the desired file.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        file_path = os.path.join(PATH_TO_DATA_TESTS, MOVIE_TITLES_TEST)
         original_file = pd.read_csv(file_path)
         self.assertEqual(len(nf.reading_movie_title_csv(file_path)), len(original_file))
 
@@ -236,7 +240,7 @@ class TestNetflix(unittest.TestCase):
         """
         Checks that the correct options list is generated in the get_options(lst) function.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        file_path = os.path.join(PATH_TO_DATA_TESTS, MOVIE_TITLES_TEST)
         movies_df = pd.read_csv(file_path)
         dict_options = nf.get_options(movies_df['Display'].unique())
         self.assertEqual(len(movies_df), len(dict_options))
@@ -247,7 +251,7 @@ class TestNetflix(unittest.TestCase):
         For the test, we used the movie 'Ricky Martin: One Night Only - 1999',
         with the corresponding ID 61.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        file_path = os.path.join(PATH_TO_DATA_TESTS, MOVIE_TITLES_TEST)
         movies_df = pd.read_csv(file_path)
         title = 'Ricky Martin: One Night Only - 1999'
         movie_id = nf.get_movie_id(movies_df, title)
@@ -258,7 +262,7 @@ class TestNetflix(unittest.TestCase):
         Checks that the function recommendation_for_movies(file) loads a non-empty
         dictionary.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, PROCESSED_DIR, NF_DICT_RECOMMENDATIONS)
+        file_path = os.path.join(PATH_TO_DATA_PROC, NF_DICT_RECOMMENDATIONS)
         dict_recommendations = nf.recommendation_for_movies(file_path)
         self.assertTrue(len(dict_recommendations) > 0)
 
@@ -267,7 +271,7 @@ class TestNetflix(unittest.TestCase):
         CHecks that the function get_top10_movies(df, list1, list2) returns the info
         for the movie ids passed to the function.
         """
-        file_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
+        file_path = os.path.join(PATH_TO_DATA_TESTS, MOVIE_TITLES_TEST)
         movies_df = nf.reading_movie_title_csv(file_path)
         movie_ids = list(range(1, 11))
         movie_scores = []
@@ -281,8 +285,8 @@ class TestNetflix(unittest.TestCase):
         CHecks that the function userchoice_based_movie_recommendation(title, df, dictionary)
         returns the recommended movies for the selected title.
         """
-        titles_path = os.path.join(PACKAGE_DIR, DATA_DIR, TEST_DATA_DIR, MOVIE_TITLES_TEST)
-        recs_path = os.path.join(PACKAGE_DIR, DATA_DIR, PROCESSED_DIR, NF_DICT_RECOMMENDATIONS)
+        titles_path = os.path.join(PATH_TO_DATA_TESTS, MOVIE_TITLES_TEST)
+        recs_path = os.path.join(PATH_TO_DATA_PROC, NF_DICT_RECOMMENDATIONS)
         movies_df = nf.reading_movie_title_csv(titles_path)
         dict_recommendations = nf.recommendation_for_movies(recs_path)
         title = 'Ricky Martin: One Night Only - 1999'
