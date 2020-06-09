@@ -8,6 +8,8 @@ import dash_html_components as html
 import dash_core_components as dcc
 from bingewatch import netflix as nmr
 from bingewatch import imdb
+from bingewatch import filter_based_recommendation
+from bingewatch import choice_based_recommendation
 
 # Loading the necessary files: movies_df, imdf_df, dict_rec
 DATA_DIR = 'bingewatch/data'
@@ -66,9 +68,6 @@ app.layout = html.Div(style={'backgroundColor': COLORS['background']},
                                    ]),
                           html.Div(id='tabs-content-display')
                       ])
-
-from bingewatch import filter_based_recommendation
-from bingewatch import choice_based_recommendation
 
 
 @app.callback(Output('tabs-content-display', 'children'),
