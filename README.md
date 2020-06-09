@@ -20,7 +20,9 @@ The project can also be run locally:
 ```
 git clone https://github.com/flormarcaccio/bingewatch.git
 cd bingewatch
-pip install -r requirements.txt
+conda env create -f environment.yml
+conda activate mrs
+pip install -e .
 python run.py
 ```
 After running this code, copy and paste the web address output on the terminal into a web browser to view the visualization.
