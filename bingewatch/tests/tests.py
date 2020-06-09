@@ -1,5 +1,5 @@
 """
-This module tests most of the functiones used throughout the package.
+This module tests most of the functions used throughout the package.
 It is not possible to test the function process_netflix() and process_imdb()
 found in data_manager.py, as these functions ingest and process all of the
 data, which would take too much time. However, we do test all the functions
@@ -15,8 +15,8 @@ import dash_html_components as html
 import bingewatch.data.helper_functions as hf
 import bingewatch.imdb as imdb
 import bingewatch.netflix as nf
-sys.path.append('../data')
 
+sys.path.append('../data')
 
 CSV_EXT = '.csv'
 TAB = '\t'
@@ -49,9 +49,9 @@ class TestHelperFunctions(unittest.TestCase):
     """
     Test all the functions in helper_functions.py.
     """
-    test_df = pd.DataFrame({'movies' : ["A", "B", "C", "D"],
-                            'genres' : ["Action,Romance", "Comedy",
-                                        "Comedy", "Romance"]})
+    test_df = pd.DataFrame({'movies': ["A", "B", "C", "D"],
+                            'genres': ["Action,Romance", "Comedy",
+                                       "Comedy", "Romance"]})
 
     def test_unique_genres(self):
         """
@@ -135,23 +135,21 @@ class TestHelperFunctions(unittest.TestCase):
         pass
 
 
-
-
 class TestImdb(unittest.TestCase):
     """
     Test all the function in imdb.py.
     """
     test_df = pd.DataFrame({
-        'movies' : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
+        'movies': ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
         'titleType': ["Movie", "Movie", "Movie", "tvSeries", "tvSeries",
                       "tvSeries", "tvSeries", "Movie", "tvSeries", "Movie",
                       "Movie"],
-        'genres' : ["Action", "Comedy", "Comedy", "Romance",
-                    "Comedy,Romance", "Comedy,Action", "Romance",
-                    "Action,Comedy", "Action", "Action", "Romance"],
-        'startYear':[2020, 2019, 2018, 2020, 2016, 2015, 2012, 2017,
-                     2016, 2019, 2018],
-        'weightedAverage':[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]})
+        'genres': ["Action", "Comedy", "Comedy", "Romance",
+                   "Comedy,Romance", "Comedy,Action", "Romance",
+                   "Action,Comedy", "Action", "Action", "Romance"],
+        'startYear': [2020, 2019, 2018, 2020, 2016, 2015, 2012, 2017,
+                      2016, 2019, 2018],
+        'weightedAverage': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]})
 
     def test_load_data(self):
         """
@@ -208,25 +206,22 @@ class TestImdb(unittest.TestCase):
         self.assertTrue(imdb.filter_selected(["tvSeries", "Movie"], "Movie"))
 
 
-
-
 class TestNetflix(unittest.TestCase):
     """
     Test all the function in netflix.py.
     """
 
     test_df = pd.DataFrame({
-        'movies' : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
+        'movies': ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
         'titleType': ["Movie", "Movie", "Movie", "tvSeries", "tvSeries",
                       "tvSeries", "tvSeries", "Movie", "tvSeries", "Movie",
                       "Movie"],
-        'genres' : ["Action", "Comedy", "Comedy", "Romance",
-                    "Comedy,Romance", "Comedy,Action", "Romance",
-                    "Action,Comedy", "Action", "Action", "Romance"],
-        'startYear':[2020, 2019, 2018, 2020, 2016, 2015, 2012, 2017,
-                     2016, 2019, 2018],
-        'weightedAverage':[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]})
-
+        'genres': ["Action", "Comedy", "Comedy", "Romance",
+                   "Comedy,Romance", "Comedy,Action", "Romance",
+                   "Action,Comedy", "Action", "Action", "Romance"],
+        'startYear': [2020, 2019, 2018, 2020, 2016, 2015, 2012, 2017,
+                      2016, 2019, 2018],
+        'weightedAverage': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]})
 
     def test_reading_movie_title_csv(self):
         """
@@ -302,8 +297,6 @@ class TestNetflix(unittest.TestCase):
         max_rows = 5
         table_output = nf.generate_table(self.test_df, max_rows)
         self.assertTrue(isinstance(table_output, html.Table))
-
-
 
 
 if __name__ == '__main__':
