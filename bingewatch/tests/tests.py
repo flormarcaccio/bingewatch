@@ -42,8 +42,6 @@ NF_DICT_RECOMMENDATIONS = 'dict_recommendations.pkl'
 
 MOVIE_TITLES_TEST = 'movie_titles_test.csv'
 
-TEST_FILE_OUT = 'test_file'
-
 IMDB_URL = 'https://datasets.imdbws.com/title.ratings.tsv.gz'
 
 
@@ -278,7 +276,7 @@ class TestNetflix(unittest.TestCase):
         movies_df = nf.reading_movie_title_csv(file_path)
         movie_ids = list(range(1, 11))
         movie_scores = []
-        for i in movie_ids:
+        for _ in movie_ids:
             movie_scores.append(random.uniform(0, 1))
         movies_info = nf.get_top10_movies(movies_df, movie_ids, movie_scores)
         self.assertEqual(len(movies_info), 10)
