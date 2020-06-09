@@ -1,4 +1,4 @@
-"""Information about the package bingewatch."""
+"""Information about the package bingewatch """
 from setuptools import setup, find_packages
 
 PACKAGES = find_packages()

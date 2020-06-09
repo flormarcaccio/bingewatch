@@ -212,15 +212,15 @@ class TestNetflix(unittest.TestCase):
     """
 
     test_df = pd.DataFrame({
-        'movies': ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
+        'movies': ["M", "N", "P", "Q", "R", "S", "T", "U", "V", "X", "Y"],
         'titleType': ["Movie", "Movie", "Movie", "tvSeries", "tvSeries",
-                      "tvSeries", "tvSeries", "Movie", "tvSeries", "Movie",
-                      "Movie"],
-        'genres': ["Action", "Comedy", "Comedy", "Romance",
-                   "Comedy,Romance", "Comedy,Action", "Romance",
-                   "Action,Comedy", "Action", "Action", "Romance"],
-        'startYear': [2020, 2019, 2018, 2020, 2016, 2015, 2012, 2017,
-                      2016, 2019, 2018],
+                      "Movie", "tvSeries", "Movie", "tvSeries", "Movie",
+                      "tvSeries"],
+        'genres': ["Action", "Comedy", "Romance", "Comedy",
+                   "Comedy,Romance", "Comedy,Action", "Action",
+                   "Action,Comedy", "Action", "Romance", "Romance"],
+        'startYear': [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
+                      2018, 2019, 2020],
         'weightedAverage': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]})
 
     def test_reading_movie_title_csv(self):

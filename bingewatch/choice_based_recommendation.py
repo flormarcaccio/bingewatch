@@ -26,12 +26,13 @@ CHOICE_BASED_RECOMMENDATION_LAYOUT = html.Div(
                          children=[
                              dcc.Dropdown(id='movie_list_input',
                                           options=nmr.get_options(MOVIES_DF['Display'].unique()),
-                                          value=[MOVIES_DF['Display'].iloc[206]],
+                                          value=[MOVIES_DF['Display'].iloc[61]],
                                           searchable=True,
                                           placeholder="Select a movie"
                                           ),
                          ],
-                         style={'width': '50%', 'text': 'black'}
+                         style={'width': '50%', 'text': 'black', 'font': 'Times New Roman',
+                                'background': COLORS['background1']}
                      ),
                      html.Div(children=[html.H1("\n \n")]),
                      html.Div(id='after_input_text',
