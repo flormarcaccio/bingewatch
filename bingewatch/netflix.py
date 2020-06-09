@@ -72,8 +72,8 @@ def get_top10_movies(movies_df, recommended_movie_ids, recommended_movie_scores)
     top10_movies = movies_df[movies_df.Sno.isin(recommended_movie_ids)]
     top10_movies['Match%'] = recommended_movie_scores.copy()
     top10_movies['Match%'] = round(round(top10_movies['Match%'], 2) * 100)
-    top10_movies = top10_movies.drop(['Sno', 'Movie Title'], axis=1)
-    top10_movies.columns = ['Year of Release', 'Display', 'Match%']
+    top10_movies = top10_movies.drop(['Sno', 'Final_title'], axis=1)
+    top10_movies.columns = ['Year of Release', 'Movie Title', 'Match%']
     return top10_movies
 
 
@@ -82,6 +82,8 @@ def userchoice_based_movie_recommendation(selected_movie, movies_df, dict_rec):
     This function recommends movies based a user selected movie id
     Args:
          selected_movie: movie-id input by user
+         movies_df: dataframe containing all movies'
+         dict_rec: dictionary containing list of recommended movies for each movie
     Returns: Dataframe containing top 10 recommended movies
     """
     movie_id = get_movie_id(movies_df, selected_movie)
