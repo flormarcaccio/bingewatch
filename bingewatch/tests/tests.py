@@ -42,8 +42,6 @@ NF_DICT_RECOMMENDATIONS = 'dict_recommendations.pkl'
 
 MOVIE_TITLES_TEST = 'movie_titles_test.csv'
 
-TEST_FILE_OUT = 'test_file'
-
 IMDB_URL = 'https://datasets.imdbws.com/title.ratings.tsv.gz'
 
 
@@ -125,6 +123,15 @@ class TestHelperFunctions(unittest.TestCase):
         self.assertEqual(list(merged_df.columns), IMDB_MERGED_COLS)
 
     def test_download_netflix_data(self):
+        """
+        The function download_netflix_data(user, directory) cannot be tested through
+        Github because local Kaggle credentials are required,
+        as described in our setup instructions.
+        However, it can be tested locally using the following code:
+        hf.download_netflix_data('netflix-inc', 'netflix-prize-data')
+        self.assertTrue(os.path.exists('./netflix-prize-data'))
+        os.system("rm -r netflix-prize-data")
+        """
         pass
 
 
@@ -269,7 +276,7 @@ class TestNetflix(unittest.TestCase):
         movies_df = nf.reading_movie_title_csv(file_path)
         movie_ids = list(range(1, 11))
         movie_scores = []
-        for i in movie_ids:
+        for _ in movie_ids:
             movie_scores.append(random.uniform(0, 1))
         movies_info = nf.get_top10_movies(movies_df, movie_ids, movie_scores)
         self.assertEqual(len(movies_info), 10)
