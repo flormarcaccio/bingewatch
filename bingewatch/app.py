@@ -76,6 +76,7 @@ app.layout = html.Div(style={'backgroundColor': COLORS['background']},
 from bingewatch import filter_based_recommendation
 from bingewatch import choice_based_recommendation
 
+
 @app.callback(Output('tabs-content-display', 'children'),
               [Input('tabs-example', 'value')])
 def render_content(tab):
@@ -87,7 +88,7 @@ def render_content(tab):
     return choice_based_recommendation.CHOICE_BASED_RECOMMENDATION_LAYOUT
 
 
-## Tab 1: choice_based_recommendation callback
+## Tab-1: Choice Based Recommendation
 @app.callback(Output('my-table', 'children'), [Input('movie_list_input', 'value')])
 def update_table(selected_movie):
     """
@@ -151,5 +152,3 @@ def update_figure_tab2(selected_filters, selected_year, selected_type, selected_
             title='Top 10 Most Popular',
             yaxis={'title': 'Weighted Average'})
     }
-
-
