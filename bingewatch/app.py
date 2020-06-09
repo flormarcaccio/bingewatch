@@ -57,6 +57,11 @@ app.layout = html.Div(style={'backgroundColor': COLORS['background']},
                                   'color': COLORS['text']
                               }
                           ),
+                          html.Div(children=''
+                                            ''
+                                            ''
+                                            ''
+                                   ),
                           dcc.Tabs(id="tabs-example", value='tab-1',
                                    children=[
                                        dcc.Tab(label='Choice Based Recommendation',
@@ -146,3 +151,5 @@ def update_figure_tab2(selected_filters, selected_year, selected_type, selected_
             title='Top 10 Most Popular',
             yaxis={'title': 'Weighted Average'})
     }
+
+
