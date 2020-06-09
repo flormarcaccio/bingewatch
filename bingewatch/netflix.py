@@ -72,8 +72,8 @@ def get_top10_movies(movies_df, recommended_movie_ids, recommended_movie_scores)
     top10_movies = movies_df[movies_df.Sno.isin(recommended_movie_ids)]
     top10_movies['Match%'] = recommended_movie_scores.copy()
     top10_movies['Match%'] = round(round(top10_movies['Match%'], 2) * 100)
-    top10_movies = top10_movies.drop(['Sno', 'Display'], axis=1)
-    top10_movies.columns = ['Year of Release', 'Movie Title', 'Match%']
+    top10_movies = top10_movies.drop(['Sno', 'Movie Title'], axis=1)
+    top10_movies.columns = ['Year of Release', 'Display', 'Match%']
     return top10_movies
 
 
