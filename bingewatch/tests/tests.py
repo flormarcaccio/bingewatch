@@ -46,6 +46,9 @@ NF_DICT_RECOMMENDATIONS = 'dict_recommendations.pkl'
 
 MOVIE_TITLES_TEST = 'movie_titles_test.csv'
 
+CURRENT_DIR = '.'
+TEST_FILE_OUT = 'test_file'
+
 IMDB_URL = 'https://datasets.imdbws.com/title.ratings.tsv.gz'
 
 
@@ -71,9 +74,10 @@ class TestHelperFunctions(unittest.TestCase):
         Check that the save_file(file) function correctly outputs a csv file,
         then remove the created file.
         """
-        hf.save_file(self.test_df, "./", "test_file", ".csv")
-        self.assertTrue(os.path.exists('./test_file.csv'))
-        os.system("rm test_file.csv")
+        hf.save_file(self.test_df, os.path.join(CURRENT_DIR), TEST_FILE_OUT, CSV_EXT)
+        file_path = os.path.join(CURRENT_DIR, TEST_FILE_OUT+CSV_EXT)
+        self.assertTrue(os.path.exists(file_path))
+        os.system('rm '+file_path)
 
     def test_download_gz_file(self):
         """
