@@ -10,13 +10,15 @@ from bingewatch import netflix as nmr
 from bingewatch import imdb
 
 # Loading the necessary files: movies_df, imdf_df, dict_rec
-DATA_DIR = 'bingewatch/data'
+DATA_FOLDER = 'data'
+BINGEWATCH_FOLDER = 'bingewatch'
 PROCESSED_DIR = 'processed'
 MOVIES_FILE = 'movie_titles.csv'
 IMDB_FILE = 'imdb_df.csv'
 GENRE_FILE = 'set_genres.pkl'
 DICT_REC = 'dict_recommendations.pkl'
 
+DATA_DIR = os.path.join(BINGEWATCH_FOLDER, DATA_FOLDER)
 MOVIES_FILE_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, MOVIES_FILE)
 IMDB_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, IMDB_FILE)
 GENRES_PATH = os.path.join(DATA_DIR, PROCESSED_DIR, GENRE_FILE)
