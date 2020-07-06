@@ -14,7 +14,7 @@ In our first use case, the user wants to see movies similar to a liked movie. Fo
 Finally, we provide a visualization tool for users to access our recommender system through a web application built in Dash and deployed in Heroku.
 
 ## Use and Installation
-The deployed dashboard can be found in: [https://bingewatch-recommender.herokuapp.com](https://bingewatch-recommender.herokuapp.com).  
+The deployed dashboard can be found in: [https://seds-bingewatch.herokuapp.com/](https://seds-bingewatch.herokuapp.com/).  
   
 The project can also be run locally:  
 ```
